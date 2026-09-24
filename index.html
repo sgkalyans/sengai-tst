@@ -1,0 +1,1135 @@
+<!doctype html>
+<html lang="en" data-locale="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>செங்கை · Sengai — A Caring Hand (prototype)</title>
+<meta name="description" content="Arrange home-style meals for your parents and loved ones in Tamil Nadu, from wherever you live.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Noto+Sans+Tamil:wght@400;500;600;700&family=Noto+Serif+Tamil:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6eee1; --bg-2:#fbf7f0; --husk:#ebddc6; --husk-soft:#f1e6d4;
+  --accent:#9a3b22; --accent-deep:#6e2915; --accent-soft:#e8c9b8; --brass:#b7862c;
+  --ink:#2b2420; --ink-soft:#5c514a; --line:rgba(43,36,32,.12); --line-strong:rgba(43,36,32,.22);
+  --on-accent:#fbf7f0; --ask-bg:#6e2915; --ask-ink:#f6eee1; --bubble:#fbf7f0; --bubble-ink:#6e2915;
+  --footer-bg:#2b2420; --footer-ink:#f6eee1; --wa:#1f8f4e;
+  --sans:"Hanken Grotesk","Noto Sans Tamil",ui-sans-serif,system-ui,sans-serif;
+  --tamil:"Noto Sans Tamil","Hanken Grotesk",ui-sans-serif,system-ui,sans-serif;
+  --tamil-serif:"Noto Serif Tamil","Noto Sans Tamil",Georgia,serif;
+  --r:1.25rem;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#1d1815; --bg-2:#241e1a; --husk:#2f2620; --husk-soft:#29211c;
+    --accent:#d0694a; --accent-deep:#b4512f; --accent-soft:#5a2d1f; --brass:#d1a14a;
+    --ink:#f1e7d8; --ink-soft:#c1b2a1; --line:rgba(241,231,216,.12); --line-strong:rgba(241,231,216,.24);
+    --on-accent:#1d1815; --ask-bg:#3a170c; --ask-ink:#f1e7d8; --bubble:#f6eee1; --bubble-ink:#6e2915;
+    --footer-bg:#141110; --footer-ink:#f1e7d8; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#1d1815; --bg-2:#241e1a; --husk:#2f2620; --husk-soft:#29211c;
+  --accent:#d0694a; --accent-deep:#b4512f; --accent-soft:#5a2d1f; --brass:#d1a14a;
+  --ink:#f1e7d8; --ink-soft:#c1b2a1; --line:rgba(241,231,216,.12); --line-strong:rgba(241,231,216,.24);
+  --on-accent:#1d1815; --ask-bg:#3a170c; --ask-ink:#f1e7d8; --bubble:#f6eee1; --bubble-ink:#6e2915;
+  --footer-bg:#141110; --footer-ink:#f1e7d8; color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(5rem + env(safe-area-inset-top,0px));-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+html[lang="ta"] body{font-family:var(--tamil);line-height:1.8}
+h1,h2,h3,p,ul,ol,figure,blockquote{margin:0}
+ul,ol{padding:0;list-style:none}
+a{color:inherit;text-decoration:none}
+img,svg{max-width:100%}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.wrap{width:100%;max-width:72rem;margin-inline:auto;padding-inline:1.25rem}
+@media(min-width:768px){.wrap{padding-inline:2rem}}
+.sec{padding-block:5rem}
+@media(min-width:768px){.sec{padding-block:7rem}}
+.ta-display{font-family:var(--tamil-serif);font-weight:700}
+.muted{color:var(--ink-soft)}
+.lead{font-size:1.125rem;color:var(--ink-soft)}
+.measure{max-width:38rem}
+.h2{font-size:clamp(1.9rem,5.5vw,3rem);font-weight:700;letter-spacing:-.015em;line-height:1.15}
+html[lang="ta"] .h2{font-size:clamp(1.6rem,4.6vw,2.5rem);line-height:1.4;letter-spacing:0}
+.grid2{display:grid;gap:3rem}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;min-height:3rem;padding:0 1.5rem;border-radius:999px;font-weight:600;font-size:.975rem;border:1px solid transparent;cursor:pointer;transition:background-color .2s,border-color .2s,color .2s;text-align:center;line-height:1.3}
+.btn-primary{background:var(--accent);color:var(--on-accent)}
+.btn-primary:hover{background:var(--accent-deep)}
+.btn-secondary{border-color:var(--line-strong);background:transparent}
+.btn-secondary:hover{border-color:var(--accent);color:var(--accent)}
+.btn-light{background:#fbf7f0;color:#6e2915}
+.btn-outline-light{border-color:rgba(251,247,240,.45);color:#fbf7f0;background:transparent}
+.btn-outline-light:hover{background:rgba(251,247,240,.1)}
+.btn-wa{background:var(--wa);color:#fff}
+.btn-text{background:none;border:0;color:var(--accent);text-decoration:underline;text-underline-offset:4px;padding:0;min-height:0}
+.btn[disabled]{opacity:.6;cursor:progress}
+
+/* nav */
+.skip{position:absolute;left:1rem;top:-4rem;z-index:70;background:var(--ink);color:var(--bg);padding:.5rem 1rem;border-radius:999px}
+.skip:focus{top:calc(1rem + env(safe-area-inset-top,0px))}
+header.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:var(--bg);transition:box-shadow .3s}
+header.nav.scrolled{box-shadow:0 1px 0 var(--line)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:1rem;height:4rem}
+@media(min-width:768px){.nav-in{height:5rem}}
+.logo{display:inline-flex;align-items:center;gap:.6rem}
+.logo svg{width:2rem;height:2rem;flex-shrink:0}
+.logo .ta{font-family:var(--tamil-serif);font-weight:700;color:var(--accent);font-size:1.3rem;line-height:1.15;display:block}
+.logo .en{display:block;font-size:.65rem;color:var(--ink-soft);font-weight:500;letter-spacing:.02em;line-height:1.1;margin-top:.1rem;font-family:var(--sans)}
+.nav-links{display:none;gap:1.75rem;font-size:.95rem;color:var(--ink-soft)}
+.nav-links a:hover{color:var(--accent)}
+@media(min-width:1024px){.nav-links{display:flex}}
+.nav-right{display:flex;align-items:center;gap:.5rem}
+.nav-cta{display:none}
+@media(min-width:768px){.nav-cta{display:inline-flex;min-height:2.75rem}.nav-right{gap:.75rem}}
+.lang{display:inline-flex;border:1px solid var(--line-strong);border-radius:999px;padding:2px;font-size:.875rem}
+.lang button{border:0;background:none;min-height:2.25rem;padding:0 .8rem;border-radius:999px;cursor:pointer;color:var(--ink-soft);font-weight:500}
+.lang button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.menu-btn{display:inline-flex;align-items:center;justify-content:center;width:2.75rem;height:2.75rem;border:0;background:none;cursor:pointer;border-radius:999px}
+@media(min-width:1024px){.menu-btn{display:none}}
+.mobile-menu{position:fixed;inset:0;z-index:35;background:var(--bg);padding-top:calc(5.5rem + env(safe-area-inset-top,0px));overflow:auto}
+.mobile-menu[hidden]{display:none}
+.mobile-menu a.item{display:block;border-bottom:1px solid var(--line);padding:1rem 0;font-size:1.5rem;font-weight:500}
+
+/* hero */
+.hero{padding:1.5rem 0 4rem}
+@media(min-width:768px){.hero{padding-top:2.5rem}}
+.hero-grid{display:grid;gap:2.5rem;align-items:center}
+@media(min-width:1024px){.hero-grid{grid-template-columns:1.35fr .65fr;gap:4rem}.hero{padding-bottom:6rem}}
+.kicker{color:var(--accent);font-weight:500;font-size:.95rem}
+.hero h1{font-family:var(--tamil-serif);font-weight:700;font-size:clamp(1.85rem,6.4vw,3.1rem);line-height:1.35;margin-top:1rem}
+.hero h1 span{display:block}
+.subline{margin-top:1.25rem;font-size:clamp(1.25rem,3vw,1.5rem);font-weight:600;line-height:1.35}
+.hero .lead{margin-top:1rem}
+.cta-row{display:flex;flex-direction:column;gap:.75rem;margin-top:2rem}
+@media(min-width:640px){.cta-row{flex-direction:row}}
+.serving{display:flex;align-items:center;gap:.5rem;margin-top:1.5rem;font-size:.875rem;color:var(--ink-soft)}
+.serving svg{width:1rem;height:1rem;color:var(--accent);flex-shrink:0}
+.arch{aspect-ratio:4/5;width:100%;max-width:28rem;margin-inline:auto;border-radius:999px 999px var(--r) var(--r)}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.rise{animation:rise .9s cubic-bezier(.22,1,.36,1) both}
+
+/* photo placeholder */
+.photo{position:relative;overflow:hidden;background:#ebddc6}
+.photo svg.scene{position:absolute;inset:0;width:100%;height:100%}
+.photo .tag{position:absolute;left:.75rem;bottom:.75rem;background:rgba(251,247,240,.88);color:#5c514a;font-size:.7rem;font-weight:500;padding:.25rem .6rem;border-radius:999px;font-family:var(--sans)}
+
+/* ask */
+.ask{background:var(--ask-bg);color:var(--ask-ink)}
+.ask-grid{display:grid;gap:3rem;align-items:center}
+@media(min-width:1024px){.ask-grid{grid-template-columns:1.1fr .9fr;gap:5rem}}
+.bubble{background:var(--bubble);color:#2b2420;border-radius:1.75rem 1.75rem .4rem 1.75rem;padding:1.5rem;box-shadow:0 24px 48px -24px rgba(0,0,0,.45);max-width:36rem}
+@media(min-width:640px){.bubble{padding:1.75rem 2rem}}
+.bubble h2{font-family:var(--tamil-serif);font-weight:700;color:var(--bubble-ink);font-size:clamp(1.6rem,6vw,3rem);line-height:1.4}
+.bubble .tr{margin-top:.5rem;color:#5c514a;font-style:italic}
+.sent{display:flex;justify-content:flex-end;align-items:center;gap:.35rem;margin-top:.75rem;padding-right:.5rem;font-size:.875rem;opacity:.65;max-width:36rem}
+.ask-copy{max-width:28rem;font-size:1.125rem;opacity:.9}
+.ask-copy p+p{margin-top:1rem}
+.ask-copy .hl{margin-top:2.5rem;border-left:2px solid var(--brass);padding-left:1.25rem;font-size:clamp(1.4rem,3.5vw,1.7rem);font-weight:600;line-height:1.35;opacity:1}
+.ask-copy .hl span{display:block}
+
+/* distance */
+.dist-title{font-size:clamp(2.3rem,7vw,3.75rem);font-weight:700;letter-spacing:-.02em;line-height:1.1}
+html[lang="ta"] .dist-title{font-size:clamp(2rem,6vw,3.2rem);line-height:1.35;letter-spacing:0}
+.dist-title span{display:block}
+.dist-title span:first-child{color:var(--ink-soft)}
+@media(min-width:1024px){.grid2{grid-template-columns:1fr 1fr;gap:4rem}}
+.flow{display:flex;flex-direction:column;margin-top:3.5rem}
+@media(min-width:768px){.flow{flex-direction:row;align-items:flex-start;margin-top:5rem}}
+.node{display:flex;align-items:center;gap:1.25rem;flex:1}
+@media(min-width:768px){.node{flex-direction:column;text-align:center}}
+.circle{width:4rem;height:4rem;border-radius:999px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.5rem}
+.circle.far{border:1px dashed var(--line-strong)}
+.circle.sengai{background:var(--accent)}
+.circle.sengai svg{width:2.25rem;height:2.25rem}
+.circle.home{background:var(--husk);color:var(--accent-deep)}
+.circle.home svg{width:1.75rem;height:1.75rem}
+.node .l{display:block;font-size:1.25rem;font-weight:600}
+.node .p{display:block;color:var(--accent);font-weight:500}
+.node .n{display:block;font-size:.875rem;color:var(--ink-soft);margin-top:.1rem}
+.thread{display:flex;padding-left:31px}
+.thread span{display:block;height:2.5rem;border-left:2px dashed color-mix(in srgb,var(--accent) 45%,transparent)}
+@media(min-width:768px){.thread{flex:.7;padding:2rem 0 0}.thread span{height:0;width:100%;border-left:0;border-top:2px dashed color-mix(in srgb,var(--accent) 45%,transparent)}}
+@keyframes city{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.city{display:inline-block;animation:city .5s cubic-bezier(.22,1,.36,1) both}
+
+/* services */
+.services{background:var(--bg-2)}
+.svc-grid{display:grid;gap:2.5rem;margin-top:3rem}
+@media(min-width:1024px){.svc-grid{grid-template-columns:1.05fr 1fr;gap:4rem}}
+.feature{border-radius:var(--r);overflow:hidden;background:var(--husk-soft)}
+.feature .photo{aspect-ratio:4/3}
+.feature .body{padding:1.5rem}
+@media(min-width:640px){.feature .body{padding:2rem}}
+.ic-title{display:flex;align-items:center;gap:.75rem;color:var(--accent)}
+.ic-title h3{font-size:1.5rem;font-weight:600;color:var(--ink);line-height:1.3}
+.ic{width:1.5rem;height:1.5rem;flex-shrink:0}
+.svc-list{align-self:center}
+.svc-list li{display:flex;gap:1.25rem;padding:1.75rem 0;border-top:1px solid var(--line)}
+.svc-list li:first-child{border-top:0;padding-top:0}
+.svc-list li:last-child{padding-bottom:0}
+.dot-ic{width:3rem;height:3rem;border-radius:999px;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--accent) 9%,transparent);color:var(--accent);flex-shrink:0;margin-top:.2rem}
+.svc-list h3{font-size:1.25rem;font-weight:600;line-height:1.35}
+.soon{margin-top:4rem;border:1px dashed var(--line-strong);border-radius:var(--r);padding:1.5rem}
+@media(min-width:640px){.soon{padding:2rem}}
+.soon-head{display:flex;flex-wrap:wrap;align-items:center;gap:.75rem}
+.soon-head h3{font-size:1.25rem;font-weight:600}
+.badge{background:var(--husk);color:var(--ink-soft);font-size:.8rem;font-weight:500;padding:.15rem .65rem;border-radius:999px}
+.chips{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.5rem}
+.chips li{border:1px dashed var(--line-strong);border-radius:999px;padding:.45rem 1rem;font-size:.95rem;color:var(--ink-soft)}
+
+/* how */
+.steps{display:grid;gap:2.5rem;margin-top:3rem}
+@media(min-width:768px){.steps{grid-template-columns:repeat(3,1fr);gap:2rem}}
+.steps li{position:relative;border-top:2px solid color-mix(in srgb,var(--accent) 25%,transparent);padding-top:1.5rem}
+.steps li::before{content:"";position:absolute;top:-2px;left:0;width:3rem;height:2px;background:var(--accent)}
+.steps .num{font-size:3rem;font-weight:700;color:color-mix(in srgb,var(--accent) 32%,transparent);line-height:1;font-variant-numeric:tabular-nums;font-family:var(--sans)}
+.steps h3{margin-top:.9rem;font-size:1.25rem;font-weight:600;line-height:1.35}
+.steps p{margin-top:.5rem;color:var(--ink-soft)}
+.closing{margin-top:3.5rem;display:flex;flex-direction:column;align-items:flex-start;gap:1.5rem;background:var(--husk-soft);border-radius:var(--r);padding:1.5rem}
+@media(min-width:640px){.closing{flex-direction:row;align-items:center;justify-content:space-between;padding:2rem}}
+.closing p{font-size:clamp(1.2rem,3vw,1.5rem);font-weight:600;line-height:1.35}
+.closing .btn{flex-shrink:0}
+
+/* nri */
+.nri{background:var(--husk-soft)}
+.nri-grid{display:grid;gap:3rem;align-items:center}
+@media(min-width:1024px){.nri-grid{grid-template-columns:.85fr 1.15fr;gap:5rem}}
+.nri-photo{aspect-ratio:4/5;width:100%;max-width:28rem;justify-self:center;border-radius:var(--r);order:2}
+@media(min-width:1024px){.nri-photo{order:0}}
+.flags{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:2rem}
+.flags li{display:inline-flex;gap:.5rem;align-items:center;background:var(--bg-2);border-radius:999px;padding:.35rem .9rem;font-size:.95rem}
+.checks{margin-top:2rem;display:grid;gap:.75rem}
+.checks li{display:flex;gap:.75rem}
+.checks svg{width:1.25rem;height:1.25rem;color:var(--accent);flex-shrink:0;margin-top:.25rem}
+
+/* trust */
+.trust-grid{display:grid;gap:3rem}
+@media(min-width:1024px){.trust-grid{grid-template-columns:.8fr 1.2fr;gap:5rem}}
+.trust-list{display:grid;gap:2rem 2.5rem}
+@media(min-width:640px){.trust-list{grid-template-columns:1fr 1fr}}
+.trust-list li{display:flex;gap:1rem}
+.trust-list svg{color:var(--accent);margin-top:.15rem}
+.trust-list h3{font-size:1rem;font-weight:600}
+.trust-list p{margin-top:.25rem;color:var(--ink-soft)}
+
+/* stories */
+.stories{background:var(--bg-2)}
+.sample{display:inline-block;margin:2.5rem 0 1.25rem;border:1px dashed color-mix(in srgb,var(--brass) 60%,transparent);background:color-mix(in srgb,var(--brass) 10%,transparent);border-radius:.4rem;padding:.4rem .75rem;font-size:.875rem;color:var(--ink-soft)}
+.quote{font-size:clamp(1.4rem,3.6vw,1.9rem);font-weight:500;line-height:1.4;max-width:48rem}
+html[lang="ta"] .quote{font-family:var(--tamil-serif);font-weight:600;line-height:1.65}
+.quote .q{color:var(--accent)}
+.cite{margin-top:1.5rem;color:var(--ink-soft)}
+.cite b{color:var(--ink);font-weight:600}
+
+/* about */
+.path{position:relative;align-self:center;border-left:2px dashed var(--line-strong);padding-left:2rem;margin-left:.5rem}
+.path li{position:relative;padding-bottom:2.25rem}
+.path li:last-child{padding-bottom:0}
+.path li::before{content:"";position:absolute;top:.45rem;left:-2.6rem;width:1rem;height:1rem;border-radius:999px;border:2px solid var(--line-strong);background:var(--bg)}
+.path li.now::before{background:var(--accent);border-color:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 22%,transparent)}
+.path .note{display:block;font-size:.875rem;font-weight:500;color:var(--ink-soft)}
+.path .now .note{color:var(--accent)}
+.path .lbl{display:block;font-size:1.5rem;font-weight:600;color:color-mix(in srgb,var(--ink) 55%,transparent);line-height:1.35}
+.path .now .lbl{color:var(--ink)}
+
+/* final */
+.final{padding-inline:.75rem}
+@media(min-width:640px){.final{padding-inline:1.25rem}}
+.final-in{max-width:80rem;margin:0 auto;border-radius:2rem;background:#9a3b22;color:#fbf7f0;text-align:center;padding:5rem 1.25rem}
+@media(min-width:768px){.final-in{padding:7rem 2rem}}
+.final h2{max-width:48rem;margin:0 auto;font-size:clamp(1.9rem,5.5vw,3rem);font-weight:700;line-height:1.2;letter-spacing:-.015em}
+html[lang="ta"] .final h2{font-size:clamp(1.6rem,4.6vw,2.5rem);line-height:1.45;letter-spacing:0}
+.final h2 span{display:block}
+.final h2 span:first-child{opacity:.75}
+.final p{max-width:36rem;margin:1.5rem auto 0;font-size:1.125rem;opacity:.88}
+.final .cta-row{justify-content:center;align-items:center;margin-top:2.5rem}
+
+/* form */
+.form-grid{display:grid;gap:2.5rem}
+@media(min-width:1024px){.form-grid{grid-template-columns:.8fr 1.2fr;gap:4rem}.form-intro{position:sticky;top:7rem;align-self:start}}
+.form-intro svg{width:3rem;height:3rem}
+.form-intro h2{margin-top:1.25rem}
+form{display:grid;gap:1.5rem;min-width:0}
+.group{border:0;margin:0;background:var(--bg-2);border-radius:var(--r);padding:1.25rem;min-width:0}
+@media(min-width:640px){.group{padding:1.75rem}}
+.group-title{display:flex;align-items:center;gap:.75rem;font-size:1.125rem;font-weight:600;margin-bottom:1.25rem}
+.group-title span{width:1.75rem;height:1.75rem;border-radius:999px;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-size:.875rem}
+.fields{display:grid;gap:1.25rem}
+@media(min-width:640px){.fields{grid-template-columns:1fr 1fr}.span2{grid-column:span 2}}
+label.fl{display:block;margin-bottom:.35rem;font-weight:500}
+.req{color:var(--accent)}
+.opt{font-weight:400;color:var(--ink-soft)}
+.inp{width:100%;border:1px solid var(--line-strong);background:var(--bg);border-radius:.75rem;padding:.75rem 1rem;font-size:1rem;min-height:3rem;transition:border-color .2s,box-shadow .2s}
+.inp::placeholder{color:color-mix(in srgb,var(--ink-soft) 65%,transparent)}
+.inp:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 20%,transparent)}
+select.inp{appearance:none;-webkit-appearance:none;padding-right:2.5rem;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23948779' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;background-size:1rem}
+.inp[aria-invalid="true"]{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 18%,transparent)}
+textarea.inp{min-height:6rem;resize:vertical}
+.diet{display:flex;flex-wrap:wrap;gap:.5rem}
+.diet label{cursor:pointer}
+.diet input{position:absolute;opacity:0;pointer-events:none}
+.diet span{display:inline-flex;align-items:center;min-height:2.5rem;padding:0 1rem;border:1px solid var(--line-strong);border-radius:999px;background:var(--bg);color:var(--ink-soft);font-size:.95rem;transition:all .15s}
+.diet input:checked+span{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.diet input:focus-visible+span{outline:2px solid var(--accent);outline-offset:2px}
+.small{font-size:.875rem;color:var(--ink-soft)}
+.proto-note{font-size:.8rem;color:var(--ink-soft);border:1px dashed var(--line-strong);border-radius:.6rem;padding:.5rem .75rem}
+.submit-row{display:flex;flex-direction:column;gap:.75rem}
+@media(min-width:640px){.submit-row{flex-direction:row;align-items:center}.submit-row .btn-primary{min-width:14rem}}
+.thanks{background:var(--bg-2);border-radius:var(--r);padding:2.5rem 1.5rem;text-align:center;outline:none}
+@media(min-width:640px){.thanks{padding:3rem}}
+.thanks .tick{width:3.5rem;height:3.5rem;margin:0 auto;border-radius:999px;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center}
+.thanks h3{margin-top:1.5rem;font-size:2rem;font-weight:700}
+.thanks p{margin:.75rem auto 0;max-width:28rem;font-size:1.125rem;color:var(--ink-soft)}
+.thanks .acts{margin-top:2rem;display:flex;flex-direction:column;align-items:center;gap:1rem}
+@keyframes pop{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
+.thanks{animation:pop .4s cubic-bezier(.22,1,.36,1) both}
+
+/* footer */
+footer{background:var(--footer-bg);color:var(--footer-ink);padding:4rem 0 7rem}
+@media(min-width:768px){footer{padding:5rem 0 3rem}}
+.foot-grid{display:grid;gap:3rem}
+@media(min-width:768px){.foot-grid{grid-template-columns:1.3fr 1fr 1fr}}
+footer .logo svg{width:3.5rem;height:3.5rem}
+footer .logo .ta{color:var(--footer-ink);font-size:2.1rem}
+footer .logo .en{color:rgba(246,238,225,.7);font-size:.85rem}
+.f-soft{color:rgba(246,238,225,.7)}
+.f-dim{color:rgba(246,238,225,.5)}
+footer nav ul{display:grid;gap:.75rem}
+footer nav a{color:rgba(246,238,225,.82)}
+footer nav a:hover{color:var(--footer-ink)}
+footer h2{font-size:1.125rem;font-weight:600}
+.contacts{margin-top:1rem;display:grid;gap:1rem}
+.contacts li{display:flex;gap:.75rem;align-items:flex-start}
+.contacts svg{width:1.25rem;height:1.25rem;color:#e8c9b8;margin-top:.2rem;flex-shrink:0}
+.contacts .k{display:block;font-size:.875rem;color:rgba(246,238,225,.55)}
+.copy{margin-top:3.5rem;border-top:1px solid rgba(246,238,225,.1);padding-top:1.5rem;font-size:.875rem;color:rgba(246,238,225,.45)}
+
+/* sticky mobile CTA */
+.sticky{position:fixed;left:0;right:0;bottom:0;z-index:40;display:flex;gap:.6rem;padding:.75rem 1rem calc(.75rem + env(safe-area-inset-bottom,0px));background:color-mix(in srgb,var(--bg-2) 94%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--line);transform:translateY(110%);transition:transform .3s}
+.sticky.show{transform:none}
+.sticky .btn-primary{flex:1}
+.sticky .wa{width:3rem;height:3rem;border-radius:999px;background:var(--wa);color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+@media(min-width:768px){.sticky{display:none}}
+
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.rise,.city,.thanks{animation:none}.sticky{transition:none}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div class="sticky" id="sticky" aria-hidden="true">
+  <a class="btn btn-primary" href="#arrange" tabindex="-1" id="stickyCta"></a>
+  <a class="wa" href="#arrange" tabindex="-1" id="stickyWa"><span class="sr-only" id="stickyWaLabel"></span></a>
+</div>
+<script>
+
+
+const en = {
+  meta: {
+    skip: "Skip to content",
+    languageLabel: "Language",
+    menu: "Menu",
+    close: "Close",
+  },
+  nav: {
+    home: "Home",
+    how: "How It Works",
+    services: "Our Services",
+    about: "About Sengai",
+    contact: "Contact",
+    cta: "Arrange a Meal",
+  },
+  hero: {
+    kicker: "For families living away from home",
+    headlineTa: ["நீங்கள் தொலைவில் இருந்தாலும்,", "உங்கள் அன்பு அருகில் இருக்கட்டும்."],
+    subline: "For the ones you love, when you can’t be there.",
+    body: "Sengai helps you care for your loved ones back home with freshly prepared meals and thoughtful local support — even when you’re miles away.",
+    primary: "Arrange a Meal",
+    secondary: "How Sengai Works",
+    serving: "Now serving {town} and surrounding areas",
+  },
+  ask: {
+    question: "அம்மா, அப்பா… சாப்பிட்டீங்களா?",
+    translation: "Amma, Appa… have you eaten?",
+    sentFrom: "Sent from Singapore",
+    p1: "It is one of the simplest questions we ask the people we love.",
+    p2: "But when distance keeps us away, sometimes a question isn’t enough.",
+    p3: "You may be thousands of kilometres away. Sengai can be there locally.",
+    highlight: ["You arrange it.", "We take care of it locally."],
+  },
+  distance: {
+    title: ["You are far away.", "We are nearby."],
+    body1: "Your parents may be in the town where you grew up. You may now be in Singapore, Dubai, London, Sydney or somewhere else.",
+    body2: "Sengai connects your care with them, right where they live.",
+    you: "You",
+    cities: ["Singapore", "Dubai", "London", "Sydney", "Toronto", "Chennai"],
+    sengai: "Sengai",
+    sengaiPlace: "{town}, Tamil Nadu",
+    them: "Your loved ones",
+    themNote: "At home, as always",
+    youNote: "Arrange from anywhere",
+    sengaiNote: "Cooks, delivers, stays in touch",
+  },
+  services: {
+    title: "Care that starts with a meal.",
+    intro: "Food is where we begin. Every meal is arranged around the person eating it.",
+    items: [
+      {
+        key: "meals",
+        title: "Home-style meals",
+        body: "Freshly prepared meals delivered to their home.",
+      },
+      {
+        key: "scheduled",
+        title: "Scheduled meals",
+        body: "Arrange meals regularly — daily, weekly or according to their needs.",
+      },
+      {
+        key: "thoughtful",
+        title: "Thoughtful food",
+        body: "Meals prepared with familiar tastes and preferences in mind.",
+      },
+      {
+        key: "support",
+        title: "Local support",
+        body: "A local team that can help with everyday needs as Sengai expands.",
+      },
+    ],
+    menuNote: "Meal options: {meals}",
+    soonTitle: "More ways to care — coming soon",
+    soonNote: "These services are not available yet. Tell us which would help your family most.",
+    soonBadge: "Coming soon",
+    soon: [
+      "Grocery assistance",
+      "Medicine collection",
+      "Local errands",
+      "Wellbeing check-ins",
+      "Special occasion arrangements",
+      "Other everyday support",
+    ],
+  },
+  how: {
+    title: "How Sengai works",
+    steps: [
+      {
+        title: "Tell us about them",
+        body: "Share the details of your parent or loved one and their preferences.",
+      },
+      {
+        title: "Choose their care",
+        body: "Select a meal or suitable service and schedule it.",
+      },
+      {
+        title: "We take care of the rest",
+        body: "Our local team prepares, coordinates and delivers.",
+      },
+    ],
+    closing: "You don’t have to be nearby to be there for them.",
+  },
+  nri: {
+    title: "Living abroad doesn’t mean caring from afar.",
+    body: [
+      "Home may be thousands of kilometres away. Your parents may still be living in the same town where you grew up.",
+      "Sengai helps bridge that distance.",
+    ],
+    countries: [
+      { flag: "🇸🇬", name: "Singapore" },
+      { flag: "🇦🇪", name: "UAE" },
+      { flag: "🇺🇸", name: "USA" },
+      { flag: "🇬🇧", name: "UK" },
+      { flag: "🇨🇦", name: "Canada" },
+      { flag: "🇦🇺", name: "Australia" },
+    ],
+    alsoCities: "Or closer, in Chennai, Bangalore or another city — it works the same way.",
+    points: [
+      "Arrange everything online or on WhatsApp, from any time zone.",
+      "Talk to us in English or Tamil.",
+      "Your parents deal with a local face, not an app.",
+    ],
+    cta: "Care for Someone Back Home",
+  },
+  trust: {
+    title: "Someone you trust, closer to home.",
+    intro: "Letting someone into your parents’ daily routine is a big step. Here is what you can expect from us.",
+    items: [
+      { title: "A local team", body: "People who live and work in {town}." },
+      { title: "Freshly prepared food", body: "Meals are cooked fresh for each delivery." },
+      { title: "Reliable delivery", body: "Delivered in the time you choose. Delivery hours: {hours}." },
+      { title: "Clear communication", body: "One point of contact on WhatsApp, in English or Tamil." },
+      { title: "Customer support", body: "Reach us by WhatsApp, phone or email." },
+      { title: "Updates for you", body: "We keep you — the person arranging — informed." },
+    ],
+  },
+  stories: {
+    title: "From families like yours",
+    sampleBadge: "Sample story — replace with a real customer story before launch",
+  },
+  about: {
+    title: "About Sengai",
+    body: [
+      "செங்கை — Sengai — is a caring hand for families who can’t always be there in person.",
+      "We start with the simplest, most familiar form of care: a good meal, on time. As we grow, we want to help with more of the everyday things families worry about from afar.",
+    ],
+    path: [
+      { label: "Meals", note: "Now" },
+      { label: "Everyday support", note: "Next" },
+      { label: "Trusted local care", note: "Where we’re headed" },
+    ],
+  },
+  final: {
+    title: ["Give them more than a meal.", "Give them your care."],
+    body: "You may not always be able to sit beside them. But you can still be there for them.",
+    primary: "Arrange Their First Meal",
+    secondary: "Talk to Sengai",
+  },
+  form: {
+    title: "Arrange a meal",
+    intro: "Tell us a little about you and the person you’re arranging for. We’ll get in touch to confirm the details — nothing is charged at this step.",
+    sections: {
+      you: "About you",
+      them: "About them",
+      meals: "Their meals",
+    },
+    fields: {
+      name: "Your name",
+      whatsapp: "Your WhatsApp number",
+      whatsappHint: "With country code, e.g. +65 …",
+      email: "Email",
+      location: "Where you live (country / city)",
+      lovedName: "Their name",
+      relationship: "They are your…",
+      lovedLocation: "Town or area",
+      lovedPhone: "Their phone number",
+      address: "Delivery address",
+      mealType: "Meal",
+      frequency: "How often",
+      time: "Preferred delivery time",
+      timeHint: "e.g. around 12:30 pm",
+      diet: "Food preferences",
+      notes: "Anything else we should know",
+      notesHint: "Health needs, how they like their food, the best time to call them…",
+      optional: "optional",
+    },
+    relationships: ["Mother", "Father", "Both parents", "Grandparent", "Other family member", "Someone else"],
+    mealTypes: ["Breakfast", "Lunch", "Dinner", "Not sure yet"],
+    frequencies: ["Just once, to try", "Every day", "A few days a week", "Once a week", "Not sure yet"],
+    diets: ["Vegetarian", "Non-vegetarian", "Less salt", "Less oil", "Less spicy", "Low sugar", "Soft food"],
+    dietNote: "For medical diets, add details in the notes and we’ll discuss them with you.",
+    select: "Choose one",
+    submit: "Start Caring",
+    sending: "Sending…",
+    required: "Please fill in the fields marked with *.",
+    error: "Your details didn’t reach us. Check your connection and send again, or message us on WhatsApp.",
+    thanks: "Thank you.",
+    thanksBody: "We will contact you shortly to arrange the service.",
+    continueWa: "Continue on WhatsApp",
+    another: "Arrange for someone else",
+    waIntro: "Hi Sengai, I just sent an enquiry.",
+  },
+  footer: {
+    serving: "Serving {town} and surrounding areas",
+    area: "Service area: {area}",
+    contact: "Contact",
+    whatsapp: "WhatsApp",
+    phone: "Phone",
+    email: "Email",
+    rights: "Sengai. All rights reserved.",
+  },
+  sticky: {
+    cta: "Arrange a Meal",
+    whatsapp: "Chat on WhatsApp",
+  },
+};
+
+
+const ta = {
+  meta: {
+    skip: "உள்ளடக்கத்துக்குச் செல்ல",
+    languageLabel: "மொழி",
+    menu: "பட்டியல்",
+    close: "மூடு",
+  },
+  nav: {
+    home: "முகப்பு",
+    how: "எப்படிச் செயல்படுகிறது",
+    services: "எங்கள் சேவைகள்",
+    about: "செங்கை பற்றி",
+    contact: "தொடர்புக்கு",
+    cta: "சாப்பாடு ஏற்பாடு செய்ய",
+  },
+  hero: {
+    kicker: "வெளியூரிலும் வெளிநாட்டிலும் இருக்கும் குடும்பங்களுக்காக",
+    headlineTa: ["நீங்கள் தொலைவில் இருந்தாலும்,", "உங்கள் அன்பு அருகில் இருக்கட்டும்."],
+    subline: "நீங்கள் பக்கத்தில் இல்லாத நேரத்திலும், உங்கள் அன்புக்குரியவர்களுக்காக.",
+    body: "நீங்கள் எவ்வளவு தூரத்தில் இருந்தாலும், ஊரில் இருக்கும் உங்கள் அம்மா அப்பாவுக்கு வீட்டுச் சுவையில் சூடான சாப்பாடும், அக்கறையான உள்ளூர் உதவியும் கிடைக்க செங்கை துணை நிற்கிறது.",
+    primary: "சாப்பாடு ஏற்பாடு செய்யுங்கள்",
+    secondary: "செங்கை எப்படிச் செயல்படுகிறது",
+    serving: "{town} மற்றும் சுற்றுவட்டாரப் பகுதிகளில்",
+  },
+  ask: {
+    question: "அம்மா, அப்பா… சாப்பிட்டீங்களா?",
+    translation: "",
+    sentFrom: "சிங்கப்பூரிலிருந்து",
+    p1: "நாம் நேசிப்பவர்களிடம் தினமும் கேட்கும் மிக எளிய கேள்வி இது.",
+    p2: "ஆனால் தூரம் நம்மைப் பிரித்து வைக்கும்போது, சில நேரம் கேள்வி மட்டும் போதுமானதாக இருப்பதில்லை.",
+    p3: "நீங்கள் ஆயிரக்கணக்கான கிலோமீட்டர் தொலைவில் இருக்கலாம். செங்கை அவர்கள் பக்கத்திலேயே இருக்கும்.",
+    highlight: ["நீங்கள் ஏற்பாடு செய்யுங்கள்.", "மீதியை நாங்கள் இங்கேயே பார்த்துக்கொள்கிறோம்."],
+  },
+  distance: {
+    title: ["நீங்கள் தொலைவில்.", "நாங்கள் அருகில்."],
+    body1: "உங்கள் அம்மா அப்பா, நீங்கள் வளர்ந்த அதே ஊரில் இருக்கலாம். நீங்கள் இப்போது சிங்கப்பூர், துபாய், லண்டன், சிட்னி அல்லது வேறு எங்கோ இருக்கலாம்.",
+    body2: "உங்கள் அக்கறையை, அவர்கள் இருக்கும் இடத்துக்கே கொண்டு சேர்க்கிறது செங்கை.",
+    you: "நீங்கள்",
+    cities: ["சிங்கப்பூர்", "துபாய்", "லண்டன்", "சிட்னி", "டொராண்டோ", "சென்னை"],
+    sengai: "செங்கை",
+    sengaiPlace: "{town}, தமிழ்நாடு",
+    them: "உங்கள் அன்புக்குரியவர்கள்",
+    themNote: "எப்போதும் போல, அவர்கள் வீட்டில்",
+    youNote: "எங்கிருந்தும் ஏற்பாடு செய்யலாம்",
+    sengaiNote: "சமைக்கிறோம், கொண்டு சேர்க்கிறோம், தொடர்பில் இருக்கிறோம்",
+  },
+  services: {
+    title: "அக்கறை, ஒரு வேளைச் சாப்பாட்டில் தொடங்குகிறது.",
+    intro: "நாங்கள் சாப்பாட்டிலிருந்து தொடங்குகிறோம். சாப்பிடுபவருக்கு ஏற்றபடி ஒவ்வொரு வேளையும் ஏற்பாடு செய்யப்படும்.",
+    items: [
+      {
+        key: "meals",
+        title: "வீட்டுச் சாப்பாடு",
+        body: "அன்றன்று சமைத்த சாப்பாடு, அவர்கள் வீட்டுக்கே.",
+      },
+      {
+        key: "scheduled",
+        title: "தவறாமல், திட்டமிட்டபடி",
+        body: "தினமும், வாரம் ஒருமுறை, அல்லது அவர்கள் தேவைக்கேற்ப — முறையாக ஏற்பாடு செய்யலாம்.",
+      },
+      {
+        key: "thoughtful",
+        title: "அவர்களுக்குப் பிடித்த சுவையில்",
+        body: "அவர்களுக்குப் பழக்கமான சுவையையும் விருப்பங்களையும் மனதில் வைத்துச் சமைக்கிறோம்.",
+      },
+      {
+        key: "support",
+        title: "உள்ளூர் உதவி",
+        body: "செங்கை வளர வளர, அன்றாடத் தேவைகளுக்கும் கைகொடுக்கும் உள்ளூர் குழு.",
+      },
+    ],
+    menuNote: "சாப்பாட்டு வகைகள்: {meals}",
+    soonTitle: "இன்னும் பல வழிகளில் அக்கறை — விரைவில்",
+    soonNote: "இந்தச் சேவைகள் இன்னும் தொடங்கவில்லை. உங்கள் குடும்பத்துக்கு எது அதிகம் உதவும் என்று சொல்லுங்கள்.",
+    soonBadge: "விரைவில்",
+    soon: [
+      "மளிகைப் பொருட்கள் வாங்கித் தருதல்",
+      "மருந்து வாங்கித் தருதல்",
+      "உள்ளூர் வேலைகள்",
+      "நலம் விசாரிப்பு",
+      "விசேஷ நாள் ஏற்பாடுகள்",
+      "மற்ற அன்றாட உதவிகள்",
+    ],
+  },
+  how: {
+    title: "செங்கை எப்படிச் செயல்படுகிறது",
+    steps: [
+      {
+        title: "அவர்களைப் பற்றிச் சொல்லுங்கள்",
+        body: "உங்கள் அம்மா, அப்பா அல்லது அன்புக்குரியவரின் விவரங்களையும் விருப்பங்களையும் பகிருங்கள்.",
+      },
+      {
+        title: "அவர்களுக்கான சேவையைத் தேர்ந்தெடுங்கள்",
+        body: "சாப்பாடு அல்லது பொருத்தமான சேவையைத் தேர்ந்தெடுத்து, நேரத்தை முடிவு செய்யுங்கள்.",
+      },
+      {
+        title: "மீதியை நாங்கள் பார்த்துக்கொள்கிறோம்",
+        body: "எங்கள் உள்ளூர் குழு சமைத்து, ஒருங்கிணைத்து, வீட்டுக்கே கொண்டு சேர்க்கும்.",
+      },
+    ],
+    closing: "அவர்களுக்குத் துணையாக இருக்க, நீங்கள் பக்கத்திலேயே இருக்க வேண்டும் என்பதில்லை.",
+  },
+  nri: {
+    title: "வெளிநாட்டில் இருந்தாலும், அக்கறை தொலைவில் இல்லை.",
+    body: [
+      "வீடு ஆயிரக்கணக்கான கிலோமீட்டர் தொலைவில் இருக்கலாம். உங்கள் பெற்றோர் இன்னும் நீங்கள் வளர்ந்த அதே ஊரில் இருக்கலாம்.",
+      "அந்தத் தூரத்தைக் குறைக்க செங்கை உதவுகிறது.",
+    ],
+    countries: [
+      { flag: "🇸🇬", name: "சிங்கப்பூர்" },
+      { flag: "🇦🇪", name: "அமீரகம்" },
+      { flag: "🇺🇸", name: "அமெரிக்கா" },
+      { flag: "🇬🇧", name: "இங்கிலாந்து" },
+      { flag: "🇨🇦", name: "கனடா" },
+      { flag: "🇦🇺", name: "ஆஸ்திரேலியா" },
+    ],
+    alsoCities: "சென்னை, பெங்களூரு போன்ற வேறு நகரத்தில் இருந்தாலும் இதே மாதிரிதான்.",
+    points: [
+      "எந்த நேர மண்டலத்திலிருந்தும், இணையத்திலோ வாட்ஸ்அப்பிலோ எல்லாவற்றையும் ஏற்பாடு செய்யலாம்.",
+      "தமிழிலோ ஆங்கிலத்திலோ எங்களிடம் பேசலாம்.",
+      "உங்கள் பெற்றோர் பழகுவது ஒரு உள்ளூர் மனிதரிடம், ஒரு ஆப்பிடம் அல்ல.",
+    ],
+    cta: "ஊரில் இருப்பவர்களுக்காக ஏற்பாடு செய்யுங்கள்",
+  },
+  trust: {
+    title: "நீங்கள் நம்பக்கூடியவர்கள், வீட்டுக்குப் பக்கத்திலேயே.",
+    intro: "உங்கள் பெற்றோரின் அன்றாட வாழ்க்கைக்குள் ஒருவரை அனுமதிப்பது சின்ன விஷயம் இல்லை. எங்களிடமிருந்து நீங்கள் எதிர்பார்க்கலாம்:",
+    items: [
+      { title: "உள்ளூர் குழு", body: "{town}-இலேயே வசித்து, பணியாற்றுபவர்கள்." },
+      { title: "அன்றன்று சமைத்த உணவு", body: "ஒவ்வொரு டெலிவரிக்கும் புதிதாகச் சமைக்கப்படுகிறது." },
+      { title: "சொன்ன நேரத்தில் டெலிவரி", body: "நீங்கள் தேர்ந்தெடுக்கும் நேரத்தில். டெலிவரி நேரம்: {hours}." },
+      { title: "தெளிவான தொடர்பு", body: "வாட்ஸ்அப்பில் ஒரே தொடர்பு நபர் — தமிழிலோ ஆங்கிலத்திலோ." },
+      { title: "வாடிக்கையாளர் உதவி", body: "வாட்ஸ்அப், தொலைபேசி அல்லது மின்னஞ்சல் மூலம் எங்களைத் தொடர்பு கொள்ளலாம்." },
+      { title: "உங்களுக்குத் தகவல்", body: "ஏற்பாடு செய்யும் உங்களுக்கு, நடப்பதைத் தெரியப்படுத்திக்கொண்டே இருப்போம்." },
+    ],
+  },
+  stories: {
+    title: "உங்களைப் போன்ற குடும்பங்களிடமிருந்து",
+    sampleBadge: "மாதிரி அனுபவம் — வெளியிடும் முன் உண்மையான வாடிக்கையாளர் அனுபவத்தைச் சேர்க்கவும்",
+  },
+  about: {
+    title: "செங்கை பற்றி",
+    body: [
+      "செங்கை — எப்போதும் நேரில் இருக்க முடியாத குடும்பங்களுக்கு ஒரு அக்கறையான கை.",
+      "மிக எளிய, எல்லோருக்கும் பழக்கமான அக்கறையிலிருந்து தொடங்குகிறோம்: நேரத்துக்கு ஒரு நல்ல சாப்பாடு. வளர வளர, தொலைவில் இருக்கும் குடும்பங்கள் கவலைப்படும் இன்னும் பல அன்றாட விஷயங்களிலும் உதவ விரும்புகிறோம்.",
+    ],
+    path: [
+      { label: "சாப்பாடு", note: "இப்போது" },
+      { label: "அன்றாட உதவி", note: "அடுத்து" },
+      { label: "நம்பகமான உள்ளூர் அக்கறை", note: "எங்கள் இலக்கு" },
+    ],
+  },
+  final: {
+    title: ["ஒரு வேளைச் சாப்பாட்டுக்கும் மேலாக,", "உங்கள் அக்கறையைக் கொடுங்கள்."],
+    body: "எப்போதும் அவர்கள் பக்கத்தில் உட்கார முடியாமல் போகலாம். ஆனாலும், அவர்களுக்காக நீங்கள் இருக்க முடியும்.",
+    primary: "முதல் சாப்பாட்டை ஏற்பாடு செய்யுங்கள்",
+    secondary: "செங்கையிடம் பேசுங்கள்",
+  },
+  form: {
+    title: "சாப்பாடு ஏற்பாடு செய்யுங்கள்",
+    intro: "உங்களைப் பற்றியும், யாருக்காக ஏற்பாடு செய்கிறீர்கள் என்பதைப் பற்றியும் கொஞ்சம் சொல்லுங்கள். விவரங்களை உறுதி செய்ய நாங்கள் உங்களைத் தொடர்பு கொள்வோம் — இப்போது எந்தக் கட்டணமும் இல்லை.",
+    sections: {
+      you: "உங்களைப் பற்றி",
+      them: "அவர்களைப் பற்றி",
+      meals: "அவர்களுக்கான சாப்பாடு",
+    },
+    fields: {
+      name: "உங்கள் பெயர்",
+      whatsapp: "உங்கள் வாட்ஸ்அப் எண்",
+      whatsappHint: "நாட்டுக் குறியீட்டுடன், எ.கா. +65 …",
+      email: "மின்னஞ்சல்",
+      location: "நீங்கள் இருக்கும் இடம் (நாடு / நகரம்)",
+      lovedName: "அவர்கள் பெயர்",
+      relationship: "அவர்கள் உங்களுக்கு…",
+      lovedLocation: "ஊர் / பகுதி",
+      lovedPhone: "அவர்கள் தொலைபேசி எண்",
+      address: "டெலிவரி முகவரி",
+      mealType: "எந்த வேளை",
+      frequency: "எத்தனை முறை",
+      time: "விரும்பும் டெலிவரி நேரம்",
+      timeHint: "எ.கா. மதியம் 12:30 மணி அளவில்",
+      diet: "உணவு விருப்பங்கள்",
+      notes: "நாங்கள் தெரிந்துகொள்ள வேண்டியவை",
+      notesHint: "உடல்நலத் தேவைகள், சாப்பாடு எப்படிப் பிடிக்கும், அவர்களை அழைக்க ஏற்ற நேரம்…",
+      optional: "விருப்பப்பட்டால்",
+    },
+    relationships: ["அம்மா", "அப்பா", "அம்மா அப்பா இருவரும்", "தாத்தா / பாட்டி", "மற்ற உறவினர்", "வேறு ஒருவர்"],
+    mealTypes: ["காலை டிபன்", "மதியச் சாப்பாடு", "இரவுச் சாப்பாடு", "இன்னும் முடிவு செய்யவில்லை"],
+    frequencies: ["ஒரு முறை, முயற்சிக்க", "தினமும்", "வாரத்தில் சில நாட்கள்", "வாரம் ஒருமுறை", "இன்னும் முடிவு செய்யவில்லை"],
+    diets: ["சைவம்", "அசைவம்", "உப்பு குறைவாக", "எண்ணெய் குறைவாக", "காரம் குறைவாக", "சர்க்கரை குறைவாக", "மென்மையான உணவு"],
+    dietNote: "மருத்துவ ரீதியான உணவுக் கட்டுப்பாடுகள் இருந்தால், குறிப்புகளில் எழுதுங்கள். உங்களிடம் பேசி முடிவு செய்வோம்.",
+    select: "தேர்ந்தெடுங்கள்",
+    submit: "அக்கறையைத் தொடங்குங்கள்",
+    sending: "அனுப்புகிறோம்…",
+    required: "* குறியிட்ட விவரங்களை நிரப்புங்கள்.",
+    error: "உங்கள் விவரங்கள் எங்களுக்கு வந்து சேரவில்லை. இணைய இணைப்பைச் சரிபார்த்து மீண்டும் அனுப்புங்கள், அல்லது வாட்ஸ்அப்பில் தொடர்பு கொள்ளுங்கள்.",
+    thanks: "நன்றி.",
+    thanksBody: "சேவையை ஏற்பாடு செய்ய விரைவில் உங்களைத் தொடர்பு கொள்வோம்.",
+    continueWa: "வாட்ஸ்அப்பில் தொடருங்கள்",
+    another: "வேறொருவருக்கு ஏற்பாடு செய்ய",
+    waIntro: "வணக்கம் செங்கை, இப்போதுதான் விவரங்களை அனுப்பினேன்.",
+  },
+  footer: {
+    serving: "{town} மற்றும் சுற்றுவட்டாரப் பகுதிகளில் சேவை",
+    area: "சேவைப் பகுதி: {area}",
+    contact: "தொடர்புக்கு",
+    whatsapp: "வாட்ஸ்அப்",
+    phone: "தொலைபேசி",
+    email: "மின்னஞ்சல்",
+    rights: "செங்கை. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.",
+  },
+  sticky: {
+    cta: "சாப்பாடு ஏற்பாடு செய்ய",
+    whatsapp: "வாட்ஸ்அப்பில் பேச",
+  },
+};
+
+const dictionaries = { en, ta };
+
+
+/* Business details not yet confirmed — replace before launch. */
+const CONFIG = {
+  town: "[TOWN NAME]",
+  serviceArea: "[SERVICE AREA]",
+  whatsapp: "[WHATSAPP NUMBER]",
+  phone: "[PHONE NUMBER]",
+  email: "[EMAIL]",
+  deliveryHours: "[DELIVERY HOURS]",
+  mealOptions: "[MEAL OPTIONS]"
+};
+const isPh = v => !v || /^\[.*\]$/.test(v.trim());
+const waDigits = () => isPh(CONFIG.whatsapp) ? "" : CONFIG.whatsapp.replace(/\D/g, "");
+const waLink = msg => waDigits() ? `https://wa.me/${waDigits()}${msg ? "?text=" + encodeURIComponent(msg) : ""}` : "#arrange";
+const fill = s => s.replaceAll("{town}", CONFIG.town).replaceAll("{area}", CONFIG.serviceArea).replaceAll("{hours}", CONFIG.deliveryHours).replaceAll("{meals}", CONFIG.mealOptions);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* ---------- icons ---------- */
+const I = (d, cls = "ic") => `<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+const icons = {
+  bowl: I('<path d="M3 11h18a9 9 0 0 1-18 0Z"/><path d="M8 20h8"/><path d="M9 3c-1 1.5 1 2.5 0 4M13 3c-1 1.5 1 2.5 0 4"/>'),
+  cal: I('<rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="m9 15 2 2 4-4"/>'),
+  leaf: I('<path d="M4 20c0-9 6-15 16-16-1 10-7 16-16 16Z"/><path d="M4 20 14 10"/>'),
+  hand: I('<path d="M3 13c1 5 4.5 8 9 8 4 0 7-2 8.5-5.5.6-1.3-.4-2.6-1.8-2.3L15 14"/><path d="M7 13h8a2 2 0 0 0 0-4h-4.5L8 7.5"/>'),
+  home: I('<path d="M4 11.5 12 5l8 6.5"/><path d="M6 10v10h12V10"/><path d="M10 20v-5a2 2 0 0 1 4 0v5"/>', ""),
+  people: I('<circle cx="9" cy="8" r="3"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><circle cx="17" cy="9" r="2.3"/><path d="M15.5 14.2A4.5 4.5 0 0 1 21 18.5"/>'),
+  flame: I('<path d="M12 21c-4 0-6.5-2.7-6.5-6 0-4 3.5-6 4.5-10 2 1.5 3 3.5 3 5.5 1-1 1.5-2 1.5-3 2 1.5 4 4.5 4 7.5 0 3.3-2.5 6-6.5 6Z"/>'),
+  clock: I('<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>'),
+  chat: I('<path d="M20 12a8 8 0 0 1-11.8 7L4 20l1-4.1A8 8 0 1 1 20 12Z"/><path d="M9 11h6M9 14h4"/>'),
+  help: I('<path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="13" width="4" height="6" rx="1.5"/><rect x="17" y="13" width="4" height="6" rx="1.5"/><path d="M19 19c0 1.5-2 2.5-5 2.5"/>'),
+  bell: I('<path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15Z"/><path d="M10 20.5a2 2 0 0 0 4 0"/>'),
+  check: I('<path d="m5 12.5 4.5 4.5L19 7.5"/>', ""),
+  pin: I('<path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0C18.5 15.4 12 21 12 21Z"/><circle cx="12" cy="10" r="2.3"/>', ""),
+  phone: I('<path d="M5 4h3.5l1.5 4.5-2 1.5a11 11 0 0 0 6 6l1.5-2 4.5 1.5V19a2 2 0 0 1-2 2A17 17 0 0 1 3 6a2 2 0 0 1 2-2Z"/>', ""),
+  mail: I('<rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="m4 7 8 6 8-6"/>', ""),
+  menu: I('<path d="M4 8h16M4 16h16"/>'),
+  close: I('<path d="M6 6l12 12M18 6 6 18"/>'),
+  wa: (s = 20) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2a9.9 9.9 0 0 0-8.5 14.98L2 22l5.16-1.5A9.9 9.9 0 1 0 12.04 2Zm0 18.1a8.2 8.2 0 0 1-4.2-1.15l-.3-.18-3.06.9.9-2.98-.2-.31a8.2 8.2 0 1 1 6.86 3.72Zm4.5-6.14c-.25-.12-1.46-.72-1.69-.8-.23-.08-.39-.12-.55.12-.16.25-.63.8-.78.96-.14.17-.29.19-.53.07a6.7 6.7 0 0 1-3.34-2.92c-.25-.43.25-.4.72-1.34.08-.16.04-.3-.02-.42-.06-.12-.55-1.33-.76-1.82-.2-.48-.4-.41-.55-.42h-.47a.9.9 0 0 0-.65.3 2.74 2.74 0 0 0-.86 2.04c0 1.2.88 2.37 1 2.53.12.17 1.73 2.64 4.2 3.7 1.56.68 2.17.73 2.95.62.48-.07 1.46-.6 1.67-1.18.2-.58.2-1.08.14-1.18-.06-.1-.22-.17-.47-.29Z"/></svg>`
+};
+const mark = (main = "var(--accent)", steam = "var(--brass)") => `<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M19 30h26a13 13 0 0 1-26 0z" fill="${main}"/><path d="M10 33c1 12 11 20 22 20 9 0 17-5 21-13 1.5-3-.5-6-3.5-5.5" fill="none" stroke="${main}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M32 11c-3 3.5 3 5.5 0 10" fill="none" stroke="${steam}" stroke-width="3" stroke-linecap="round"/></svg>`;
+const logo = (main, steam) => `<span class="logo">${mark(main, steam)}<span><span class="ta" lang="ta">செங்கை</span><span class="en">A Caring Hand</span></span></span>`;
+
+/* ---------- photo placeholders ---------- */
+const tiffin = `<g transform="translate(150 262)"><path d="M22 8c0-14 56-14 56 0" fill="none" stroke="#8d8f8c" stroke-width="5" stroke-linecap="round"/><path d="M22 8v40M78 8v40" stroke="#8d8f8c" stroke-width="4" stroke-linecap="round"/>${[0,1,2].map(i=>`<g transform="translate(0 ${20+i*40})"><rect x="12" width="76" height="38" rx="10" fill="#c9cbc7"/><rect x="12" width="76" height="8" rx="4" fill="#dfe0dd"/><rect x="20" y="12" width="6" height="22" rx="3" fill="#e9eae7"/></g>`).join("")}<ellipse cx="50" cy="146" rx="46" ry="6" fill="#2b2420" opacity=".08"/></g>`;
+const scenes = {
+  doorway: `<svg class="scene" viewBox="0 0 400 480" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="400" height="480" fill="#ebddc6"/><path d="M110 480V190a90 90 0 0 1 180 0v290Z" fill="#e8c9b8"/><path d="M130 480V196a70 70 0 0 1 140 0v284Z" fill="#f6eee1"/><path d="M130 480 60 480 130 330Z" fill="#f6eee1" opacity=".5"/><rect x="40" y="420" width="320" height="18" rx="3" fill="#d9c6a8"/><rect x="40" y="438" width="320" height="42" fill="#cdb693"/>${tiffin}<g fill="#9a3b22" opacity=".18">${[0,1,2,3,4].map(i=>`<circle cx="${160+i*20}" cy="458" r="2.4"/>`).join("")}</g></svg>`,
+  meal: `<svg class="scene" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="400" height="300" fill="#e3cfae"/><path d="M0 210c80-30 170 20 260-10s110-20 140 0v100H0Z" fill="#d7bf98"/><path d="M40 150c60-70 260-80 330-20-70 60-260 70-330 20Z" fill="#6f7d4c"/><path d="M45 150c100-18 210-22 320-20" stroke="#8a9960" stroke-width="3" fill="none"/>${[[120,130,26,"#c8962f"],[185,118,22,"#a8431f"],[245,132,24,"#e7d9b4"],[300,124,18,"#b35a2a"]].map(([x,y,r,f])=>`<circle cx="${x}" cy="${y}" r="${r+5}" fill="#cfd1cd"/><circle cx="${x}" cy="${y}" r="${r}" fill="${f}"/>`).join("")}<ellipse cx="190" cy="170" rx="50" ry="18" fill="#f8f4ea"/></svg>`,
+  call: `<svg class="scene" viewBox="0 0 400 480" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="400" height="480" fill="#2e3440"/><rect x="40" y="40" width="320" height="260" rx="8" fill="#3d4658"/><g fill="#f3c77a" opacity=".7">${Array.from({length:24},(_,i)=>`<rect x="${60+(i%8)*38}" y="${200+Math.floor(i/8)*26}" width="10" height="12" rx="1"/>`).join("")}</g><rect x="140" y="170" width="120" height="230" rx="18" fill="#1d1f24"/><rect x="148" y="182" width="104" height="206" rx="12" fill="#ebddc6"/><path d="M160 388V300a40 40 0 0 1 80 0v88Z" fill="#e8c9b8"/><circle cx="185" cy="300" r="14" fill="#9a3b22" opacity=".85"/><circle cx="217" cy="304" r="13" fill="#6e2915" opacity=".85"/><path d="M165 388c4-40 36-40 40-40s36 0 40 40Z" fill="#b7862c" opacity=".5"/></svg>`
+};
+const photo = (scene, cls, alt) => `<div class="photo ${cls}" role="img" aria-label="${esc(alt)}">${scenes[scene]}<span class="tag">Photo placeholder</span></div>`;
+
+/* ---------- state ---------- */
+let locale = "en";
+try { const q = new URLSearchParams(location.search).get("lang"); const s = localStorage.getItem("sengai-locale"); locale = (q === "ta" || q === "en") ? q : (s === "ta" ? "ta" : "en"); } catch (e) {}
+let firstRender = true, cityIdx = 0, cityTimer = null, sent = null;
+const EN = dictionaries.en.form;
+
+/* ---------- sections ---------- */
+function nav(t) {
+  const links = [["#top", t.nav.home], ["#how", t.nav.how], ["#services", t.nav.services], ["#about", t.nav.about], ["#contact", t.nav.contact]];
+  return `<a class="skip" href="#main">${t.meta.skip}</a>
+  <header class="nav" id="navbar"><nav class="wrap nav-in" aria-label="Main">
+    <a href="#top" aria-label="Sengai home">${logo()}</a>
+    <ul class="nav-links">${links.slice(1).map(([h, l]) => `<li><a href="${h}">${l}</a></li>`).join("")}</ul>
+    <div class="nav-right">
+      <div class="lang" role="group" aria-label="${t.meta.languageLabel}">
+        <button type="button" lang="en" data-lang="en" aria-pressed="${locale === "en"}">English</button>
+        <button type="button" lang="ta" data-lang="ta" aria-pressed="${locale === "ta"}">தமிழ்</button>
+      </div>
+      <a class="btn btn-primary nav-cta" href="#arrange">${t.nav.cta}</a>
+      <button type="button" class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mobileMenu"><span class="sr-only">${t.meta.menu}</span>${icons.menu}</button>
+    </div>
+  </nav></header>
+  <div class="mobile-menu" id="mobileMenu" hidden><div class="wrap">
+    ${links.map(([h, l]) => `<a class="item" href="${h}">${l}</a>`).join("")}
+    <a class="btn btn-primary" style="width:100%;margin-top:2rem" href="#arrange">${t.nav.cta}</a>
+  </div></div>`;
+}
+
+function hero(t) {
+  const r = (d) => firstRender ? `class="rise" style="animation-delay:${d}ms"` : "";
+  const rc = (c, d) => firstRender ? `class="${c} rise" style="animation-delay:${d}ms"` : `class="${c}"`;
+  return `<section id="top" class="hero" aria-labelledby="hero-title"><div class="wrap hero-grid">
+    <div>
+      <p ${rc("kicker", 0)}>${t.hero.kicker}</p>
+      <h1 id="hero-title" lang="ta">${t.hero.headlineTa.map((l, i) => `<span ${r(120 + i * 160)}>${l}</span>`).join("")}</h1>
+      ${locale === "en" ? `<p ${rc("subline", 480)}>${t.hero.subline}</p>` : ""}
+      <p ${rc("lead measure", 560)}>${locale === "ta" ? `<b style="display:block;color:var(--ink);font-weight:600;margin-bottom:.4rem">${t.hero.subline}</b>` : ""}${t.hero.body}</p>
+      <div id="hero-cta" ${rc("cta-row", 680)}>
+        <a class="btn btn-primary" href="#arrange">${t.hero.primary}</a>
+        <a class="btn btn-secondary" href="#how">${t.hero.secondary}</a>
+      </div>
+      <p ${rc("serving", 760)}>${icons.pin}${fill(t.hero.serving)}</p>
+    </div>
+    <div ${firstRender ? 'class="rise" style="animation-delay:300ms"' : ""}>${photo("doorway", "arch", "An elderly couple at home in Tamil Nadu receiving a freshly prepared meal")}</div>
+  </div></section>`;
+}
+
+function ask(t) {
+  return `<section class="ask sec" aria-labelledby="ask-title"><div class="wrap ask-grid">
+    <figure style="min-width:0">
+      <div class="bubble"><h2 id="ask-title" lang="ta">${t.ask.question}</h2>${t.ask.translation ? `<p class="tr">${t.ask.translation}</p>` : ""}</div>
+      <figcaption class="sent">${t.ask.sentFrom}<svg viewBox="0 0 18 12" width="16" height="12" aria-hidden="true"><path d="m1 6 3.5 3.5L11 3M7 9.5 8 10.5 15 3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></figcaption>
+    </figure>
+    <div class="ask-copy"><p>${t.ask.p1}</p><p>${t.ask.p2}</p><p>${t.ask.p3}</p>
+      <p class="hl"><span>${t.ask.highlight[0]}</span><span>${t.ask.highlight[1]}</span></p></div>
+  </div></section>`;
+}
+
+function distance(t) {
+  const d = t.distance;
+  return `<section class="sec" aria-labelledby="dist-title"><div class="wrap">
+    <div class="grid2">
+      <h2 id="dist-title" class="dist-title"><span>${d.title[0]}</span><span>${d.title[1]}</span></h2>
+      <div class="lead measure" style="align-self:end"><p>${d.body1}</p><p style="margin-top:1rem;color:var(--ink);font-weight:500">${d.body2}</p></div>
+    </div>
+    <ol class="flow">
+      <li class="node"><span class="circle far" aria-hidden="true">🌍</span><span><span class="l">${d.you}</span><span class="p"><span class="city" id="city">${d.cities[cityIdx % d.cities.length]}</span></span><span class="n">${d.youNote}</span></span></li>
+      <li class="thread" aria-hidden="true"><span></span></li>
+      <li class="node"><span class="circle sengai">${mark("#f6eee1", "#e8c9b8")}</span><span><span class="l">${d.sengai}</span><span class="p">📍 ${fill(d.sengaiPlace)}</span><span class="n">${d.sengaiNote}</span></span></li>
+      <li class="thread" aria-hidden="true"><span></span></li>
+      <li class="node"><span class="circle home">${icons.home}</span><span><span class="l">${d.them}</span><span class="n">${d.themNote}</span></span></li>
+    </ol>
+  </div></section>`;
+}
+
+function services(t) {
+  const s = t.services, ic = { meals: icons.bowl, scheduled: icons.cal, thoughtful: icons.leaf, support: icons.hand };
+  const [f, ...rest] = s.items;
+  return `<section id="services" class="services sec" aria-labelledby="svc-title"><div class="wrap">
+    <div style="max-width:42rem"><h2 id="svc-title" class="h2">${s.title}</h2><p class="lead" style="margin-top:1rem">${s.intro}</p></div>
+    <div class="svc-grid">
+      <article class="feature">${photo("meal", "", "A home-style South Indian meal")}
+        <div class="body"><div class="ic-title">${ic[f.key]}<h3>${f.title}</h3></div><p class="lead" style="margin-top:.5rem">${f.body}</p><p class="small" style="margin-top:1rem">${fill(s.menuNote)}</p></div>
+      </article>
+      <ul class="svc-list">${rest.map(i => `<li><span class="dot-ic">${ic[i.key]}</span><div><h3>${i.title}</h3><p class="muted" style="margin-top:.25rem">${i.body}</p></div></li>`).join("")}</ul>
+    </div>
+    <div class="soon">
+      <div class="soon-head"><h3>${s.soonTitle}</h3><span class="badge">${s.soonBadge}</span></div>
+      <p class="muted" style="margin-top:.25rem">${s.soonNote}</p>
+      <ul class="chips">${s.soon.map(x => `<li>${x}</li>`).join("")}</ul>
+    </div>
+  </div></section>`;
+}
+
+function how(t) {
+  const h = t.how;
+  return `<section id="how" class="sec" aria-labelledby="how-title"><div class="wrap">
+    <h2 id="how-title" class="h2">${h.title}</h2>
+    <ol class="steps">${h.steps.map((s, i) => `<li><span class="num" aria-hidden="true">0${i + 1}</span><h3>${s.title}</h3><p>${s.body}</p></li>`).join("")}</ol>
+    <div class="closing"><p>${h.closing}</p><a class="btn btn-primary" href="#arrange">${t.nav.cta}</a></div>
+  </div></section>`;
+}
+
+function nri(t) {
+  const n = t.nri;
+  return `<section class="nri sec" aria-labelledby="nri-title"><div class="wrap nri-grid">
+    ${photo("call", "nri-photo", "A person abroad on a video call with their parents back home")}
+    <div>
+      <h2 id="nri-title" class="h2">${n.title}</h2>
+      <div class="lead measure" style="margin-top:1.25rem">${n.body.map((p, i) => `<p style="${i ? "margin-top:.75rem;color:var(--ink);font-weight:500" : ""}">${p}</p>`).join("")}</div>
+      <ul class="flags" aria-label="Countries">${n.countries.map(c => `<li><span aria-hidden="true">${c.flag}</span>${c.name}</li>`).join("")}</ul>
+      <p class="small" style="margin-top:.75rem">${n.alsoCities}</p>
+      <ul class="checks">${n.points.map(p => `<li>${icons.check}<span>${p}</span></li>`).join("")}</ul>
+      <a class="btn btn-primary" style="margin-top:2.5rem" href="#arrange">${n.cta}</a>
+    </div>
+  </div></section>`;
+}
+
+function trust(t) {
+  const tr = t.trust, ic = [icons.people, icons.flame, icons.clock, icons.chat, icons.help, icons.bell];
+  return `<section class="sec" aria-labelledby="trust-title"><div class="wrap trust-grid">
+    <div><h2 id="trust-title" class="h2">${tr.title}</h2><p class="lead" style="margin-top:1.25rem">${tr.intro}</p></div>
+    <ul class="trust-list">${tr.items.map((it, i) => `<li>${ic[i]}<div><h3>${it.title}</h3><p>${fill(it.body)}</p></div></li>`).join("")}</ul>
+  </div></section>`;
+}
+
+function stories(t) {
+  const q = locale === "ta"
+    ? "நான் சிங்கப்பூரில் இருக்கிறேன், அம்மா அப்பா இன்னும் எங்கள் ஊரில்தான். எல்லாவற்றையும் நானே ஏற்பாடு செய்யும் கவலை இல்லாமல், அவர்களுக்கு நல்ல வீட்டுச் சாப்பாடு கிடைக்க வேண்டும் என்று நினைத்தேன்."
+    : "I live in Singapore and my parents are still in our hometown. I wanted them to have a proper home-style meal without having to worry about arranging everything myself.";
+  const who = locale === "ta" ? "<b>வெளிநாட்டு வாடிக்கையாளர்</b>, சிங்கப்பூர்" : "<b>NRI Customer</b>, Singapore";
+  return `<section class="stories sec" aria-labelledby="st-title"><div class="wrap">
+    <h2 id="st-title" class="h2">${t.stories.title}</h2>
+    <p class="sample">${t.stories.sampleBadge}</p>
+    <figure><blockquote class="quote"><span class="q" aria-hidden="true">“</span>${q}<span class="q" aria-hidden="true">”</span></blockquote><figcaption class="cite">${who}</figcaption></figure>
+  </div></section>`;
+}
+
+function about(t) {
+  const a = t.about;
+  return `<section id="about" class="sec" aria-labelledby="about-title"><div class="wrap grid2">
+    <div><h2 id="about-title" class="h2">${a.title}</h2><div class="lead measure" style="margin-top:1.25rem">${a.body.map((p, i) => `<p style="${i ? "margin-top:1rem" : ""}">${p}</p>`).join("")}</div></div>
+    <ol class="path">${a.path.map((p, i) => `<li class="${i === 0 ? "now" : ""}"><span class="note">${p.note}</span><span class="lbl">${p.label}</span></li>`).join("")}</ol>
+  </div></section>`;
+}
+
+function finalCta(t) {
+  const f = t.final;
+  return `<section class="final" aria-labelledby="final-title"><div class="final-in">
+    <h2 id="final-title"><span>${f.title[0]}</span><span>${f.title[1]}</span></h2>
+    <p>${f.body}</p>
+    <div class="cta-row"><a class="btn btn-light" href="#arrange">${f.primary}</a><a class="btn btn-outline-light" href="${waDigits() ? waLink(t.form.waIntro) : "#contact"}">${icons.wa()}${f.secondary}</a></div>
+  </div></section>`;
+}
+
+function field(label, name, { type = "text", req, opt, ph = "", ac = "", multi, span, im } = {}) {
+  const id = "f-" + name;
+  const lab = `<label class="fl" for="${id}">${label}${req ? ' <span class="req" aria-hidden="true">*</span>' : opt ? ` <span class="opt">(${opt})</span>` : ""}</label>`;
+  const ctl = multi
+    ? `<textarea class="inp" id="${id}" name="${name}" rows="3" placeholder="${esc(ph)}"${req ? " required" : ""}></textarea>`
+    : `<input class="inp" id="${id}" name="${name}" type="${type}" placeholder="${esc(ph)}"${ac ? ` autocomplete="${ac}"` : ""}${im ? ` inputmode="${im}"` : ""}${req ? " required" : ""}>`;
+  return `<div class="${span ? "span2" : ""}">${lab}${ctl}</div>`;
+}
+function select(label, name, opts, vals, ph, req) {
+  const id = "f-" + name;
+  return `<div><label class="fl" for="${id}">${label}${req ? ' <span class="req" aria-hidden="true">*</span>' : ""}</label>
+    <select class="inp" id="${id}" name="${name}"${req ? " required" : ""}><option value="" disabled selected>${ph}</option>${opts.map((o, i) => `<option value="${esc(vals[i])}">${o}</option>`).join("")}</select></div>`;
+}
+
+function formSection(t) {
+  const f = t.form, F = f.fields, o = F.optional;
+  const body = sent ? `<div class="thanks" id="thanks" tabindex="-1" role="status">
+      <div class="tick">${icons.check}</div>
+      <h3>${f.thanks}</h3><p>${f.thanksBody}</p>
+      <div class="acts">
+        <a class="btn btn-wa" href="${waLink(sent)}" ${waDigits() ? 'target="_blank" rel="noopener"' : ""}>${icons.wa()}${f.continueWa}</a>
+        <button class="btn btn-text" type="button" id="another">${f.another}</button>
+      </div>
+    </div>`
+  : `<form id="enquiry" novalidate aria-describedby="req-note">
+      <p id="req-note" class="small">${f.required}</p>
+      <fieldset class="group"><legend class="sr-only">${f.sections.you}</legend><p class="group-title" aria-hidden="true"><span>1</span>${f.sections.you}</p><div class="fields">
+        ${field(F.name, "name", { req: 1, ac: "name" })}
+        ${field(F.whatsapp, "whatsapp", { req: 1, type: "tel", ac: "tel", im: "tel", ph: F.whatsappHint })}
+        ${field(F.email, "email", { type: "email", ac: "email", opt: o })}
+        ${field(F.location, "location", { ac: "country-name", opt: o })}
+      </div></fieldset>
+      <fieldset class="group"><legend class="sr-only">${f.sections.them}</legend><p class="group-title" aria-hidden="true"><span>2</span>${f.sections.them}</p><div class="fields">
+        ${field(F.lovedName, "lovedName", { req: 1 })}
+        ${select(F.relationship, "relationship", f.relationships, EN.relationships, f.select, 1)}
+        ${field(F.lovedLocation, "lovedLocation", { req: 1 })}
+        ${field(F.lovedPhone, "lovedPhone", { type: "tel", im: "tel", opt: o })}
+        ${field(F.address, "address", { multi: 1, span: 1, opt: o })}
+      </div></fieldset>
+      <fieldset class="group"><legend class="sr-only">${f.sections.meals}</legend><p class="group-title" aria-hidden="true"><span>3</span>${f.sections.meals}</p><div class="fields">
+        ${select(F.mealType, "mealType", f.mealTypes, EN.mealTypes, f.select)}
+        ${select(F.frequency, "frequency", f.frequencies, EN.frequencies, f.select)}
+        ${field(F.time, "time", { ph: F.timeHint, opt: o })}
+        <fieldset class="span2" style="border:0;margin:0;padding:0;min-width:0"><legend class="fl">${F.diet} <span class="opt">(${o})</span></legend>
+          <div class="diet">${f.diets.map((d, i) => `<label><input type="checkbox" name="diet" value="${esc(EN.diets[i])}"><span>${d}</span></label>`).join("")}</div>
+          <p class="small" style="margin-top:.5rem">${f.dietNote}</p></fieldset>
+        ${field(F.notes, "notes", { multi: 1, span: 1, ph: F.notesHint, opt: o })}
+      </div></fieldset>
+      <p class="small" id="formErr" role="alert" style="color:var(--accent);font-weight:500" hidden>${f.required}</p>
+      <div class="submit-row"><button class="btn btn-primary" type="submit">${f.submit}</button></div>
+      <p class="proto-note">Prototype: details are not sent anywhere yet.</p>
+    </form>`;
+  return `<section id="arrange" class="sec" aria-labelledby="arrange-title"><div class="wrap form-grid">
+    <div class="form-intro">${mark()}<h2 id="arrange-title" class="h2">${f.title}</h2><p class="lead" style="margin-top:1rem">${f.intro}</p></div>
+    <div style="min-width:0">${body}</div>
+  </div></section>`;
+}
+
+function footer(t) {
+  const links = [["#top", t.nav.home], ["#how", t.nav.how], ["#services", t.nav.services], ["#about", t.nav.about], ["#contact", t.nav.contact]];
+  const c = [
+    [icons.wa(20), t.footer.whatsapp, CONFIG.whatsapp, waDigits() ? waLink() : null],
+    [icons.phone, t.footer.phone, CONFIG.phone, isPh(CONFIG.phone) ? null : "tel:" + CONFIG.phone.replace(/\s/g, "")],
+    [icons.mail, t.footer.email, CONFIG.email, isPh(CONFIG.email) ? null : "mailto:" + CONFIG.email]
+  ];
+  return `<footer id="contact"><div class="wrap foot-grid">
+    <div>${logo("#f6eee1", "#e8c9b8")}<p class="f-soft" style="margin-top:1.5rem;max-width:20rem">${fill(t.footer.serving)}</p><p class="f-dim small" style="margin-top:.25rem;color:rgba(246,238,225,.5)">${fill(t.footer.area)}</p></div>
+    <nav aria-label="Footer"><ul>${links.map(([h, l]) => `<li><a href="${h}">${l}</a></li>`).join("")}</ul></nav>
+    <div><h2>${t.footer.contact}</h2><ul class="contacts">${c.map(([ic, k, v, href]) => {
+      const inner = `${ic}<span><span class="k">${k}</span><span>${esc(v)}</span></span>`;
+      return `<li>${href ? `<a href="${href}" style="display:flex;gap:.75rem">${inner}</a>` : inner}</li>`;
+    }).join("")}</ul></div>
+  </div><div class="wrap"><p class="copy">© ${new Date().getFullYear()} ${t.footer.rights}</p></div></footer>`;
+}
+
+/* ---------- render + behaviour ---------- */
+function render() {
+  const t = dictionaries[locale];
+  document.documentElement.lang = locale;
+  document.documentElement.dataset.locale = locale;
+  document.getElementById("app").innerHTML =
+    nav(t) + `<main id="main">` + hero(t) + ask(t) + distance(t) + services(t) + how(t) + nri(t) + trust(t) + stories(t) + about(t) + finalCta(t) + formSection(t) + `</main>` + footer(t);
+  document.getElementById("stickyCta").textContent = t.sticky.cta;
+  const wa = document.getElementById("stickyWa");
+  wa.innerHTML = icons.wa(24) + `<span class="sr-only">${t.sticky.whatsapp}</span>`;
+  wa.href = waLink(t.form.waIntro);
+  firstRender = false;
+  bind(t);
+}
+
+let observers = [];
+function bind(t) {
+  document.querySelectorAll("[data-lang]").forEach(b => b.addEventListener("click", () => {
+    if (b.dataset.lang === locale) return;
+    locale = b.dataset.lang;
+    try { localStorage.setItem("sengai-locale", locale); } catch (e) {}
+    const y = window.scrollY; render(); window.scrollTo(0, y);
+  }));
+
+  const menuBtn = document.getElementById("menuBtn"), menu = document.getElementById("mobileMenu");
+  const setMenu = open => {
+    menu.hidden = !open; menuBtn.setAttribute("aria-expanded", open);
+    menuBtn.innerHTML = `<span class="sr-only">${open ? t.meta.close : t.meta.menu}</span>${open ? icons.close : icons.menu}`;
+    document.body.style.overflow = open ? "hidden" : "";
+  };
+  menuBtn.addEventListener("click", () => setMenu(menu.hidden));
+  menu.querySelectorAll("a").forEach(a => a.addEventListener("click", () => setMenu(false)));
+  document.onkeydown = e => { if (e.key === "Escape" && !menu.hidden) setMenu(false); };
+
+  const form = document.getElementById("enquiry");
+  if (form) form.addEventListener("submit", e => {
+    e.preventDefault();
+    const bad = [...form.querySelectorAll("[required]")].filter(el => !el.value.trim());
+    const err = document.getElementById("formErr");
+    form.querySelectorAll("[aria-invalid]").forEach(el => el.removeAttribute("aria-invalid"));
+    if (bad.length) { bad.forEach(el => el.setAttribute("aria-invalid", "true")); err.hidden = false; bad[0].focus(); return; }
+    const d = new FormData(form), g = k => String(d.get(k) || "").trim();
+    sent = [t.form.waIntro, `${g("name")}${g("location") ? " (" + g("location") + ")" : ""}`, `→ ${g("relationship")}: ${g("lovedName")}, ${g("lovedLocation")}`, [g("mealType"), g("frequency")].filter(Boolean).join(", ")].filter(Boolean).join("\n");
+    const y = window.scrollY; render(); window.scrollTo(0, y);
+    const th = document.getElementById("thanks"); th.focus({ preventScroll: true }); th.scrollIntoView({ block: "center", behavior: "smooth" });
+  });
+  const another = document.getElementById("another");
+  if (another) another.addEventListener("click", () => { sent = null; const y = window.scrollY; render(); window.scrollTo(0, y); });
+
+  // city cycle
+  clearInterval(cityTimer);
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    cityTimer = setInterval(() => {
+      const el = document.getElementById("city"); if (!el) return;
+      cityIdx = (cityIdx + 1) % t.distance.cities.length;
+      const n = el.cloneNode(); n.textContent = t.distance.cities[cityIdx]; el.replaceWith(n);
+    }, 2400);
+  }
+
+  // sticky mobile CTA + nav shadow
+  observers.forEach(o => o.disconnect()); observers = [];
+  const sticky = document.getElementById("sticky");
+  let pastHero = false, formOn = false;
+  const upd = () => {
+    const show = pastHero && !formOn;
+    sticky.classList.toggle("show", show); sticky.setAttribute("aria-hidden", !show);
+    sticky.querySelectorAll("a").forEach(a => a.tabIndex = show ? 0 : -1);
+  };
+  const o1 = new IntersectionObserver(([e]) => { pastHero = !e.isIntersecting && e.boundingClientRect.top < 0; upd(); });
+  o1.observe(document.getElementById("hero-cta"));
+  const o2 = new IntersectionObserver(([e]) => { formOn = e.isIntersecting; upd(); }, { threshold: .05 });
+  o2.observe(document.getElementById("arrange"));
+  observers.push(o1, o2);
+}
+window.addEventListener("scroll", () => { const n = document.getElementById("navbar"); if (n) n.classList.toggle("scrolled", scrollY > 8); }, { passive: true });
+
+render();
+</script>
+</body>
+</html>
