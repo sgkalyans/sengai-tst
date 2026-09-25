@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>செங்கை · Sengai — A Caring Hand (prototype)</title>
-<meta name="description" content="Arrange home-cooked meals for your parents and loved ones in Tamil Nadu, from wherever you live.">
+<meta name="description" content="Arrange meals that taste just like home for your parents and loved ones in Tamil Nadu, from wherever you live.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Noto+Sans+Tamil:wght@400;500;600;700&family=Noto+Serif+Tamil:wght@600;700&display=swap" rel="stylesheet">
@@ -904,7 +904,7 @@ function services(t) {
   return `<section id="services" class="services sec" aria-labelledby="svc-title"><div class="wrap">
     <div style="max-width:42rem"><h2 id="svc-title" class="h2">${s.title}</h2><p class="lead" style="margin-top:1rem">${s.intro}</p></div>
     <div class="svc-grid">
-      <article class="feature">${photo("meal", "", "A home-cooked South Indian meal")}
+      <article class="feature">${photo("meal", "", "A South Indian meal, just like home")}
         <div class="body"><div class="ic-title">${ic[f.key]}<h3>${f.title}</h3></div><p class="lead" style="margin-top:.5rem">${f.body}</p><p class="small" style="margin-top:1rem">${fill(s.menuNote)}</p></div>
       </article>
       <ul class="svc-list">${rest.map(i => `<li><span class="dot-ic">${ic[i.key]}</span><div><h3>${i.title}</h3><p class="muted" style="margin-top:.25rem">${i.body}</p></div></li>`).join("")}</ul>
@@ -952,7 +952,7 @@ function trust(t) {
 function stories(t) {
   const q = locale === "ta"
     ? "நான் சிங்கப்பூரில் இருக்கிறேன், அம்மா அப்பா இன்னும் எங்கள் ஊரில்தான். எல்லாவற்றையும் நானே ஏற்பாடு செய்யும் கவலை இல்லாமல், அவர்களுக்கு நல்ல வீட்டுச் சாப்பாடு கிடைக்க வேண்டும் என்று நினைத்தேன்."
-    : "I live in Singapore and my parents are still in our hometown. I wanted them to have a proper home-cooked meal without having to worry about arranging everything myself.";
+    : "I live in Singapore and my parents are still in our hometown. I wanted them to have a proper meal that tastes like home, without having to worry about arranging everything myself.";
   const who = locale === "ta" ? "<b>வெளிநாட்டு வாடிக்கையாளர்</b>, சிங்கப்பூர்" : "<b>NRI Customer</b>, Singapore";
   return `<section class="stories sec" aria-labelledby="st-title"><div class="wrap">
     <h2 id="st-title" class="h2">${t.stories.title}</h2>
