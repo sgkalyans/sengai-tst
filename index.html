@@ -681,7 +681,7 @@ const ta = {
     title: "நீங்கள் நம்பக்கூடியவர்கள், வீட்டுக்குப் பக்கத்திலேயே.",
     intro: "உங்கள் பெற்றோரின் அன்றாட வாழ்க்கைக்குள் ஒருவரை அனுமதிப்பது சின்ன விஷயம் இல்லை. எங்களிடமிருந்து நீங்கள் எதிர்பார்க்கலாம்:",
     items: [
-      { title: "உள்ளூர் குழு", body: "{town}-இலேயே வசித்து, பணியாற்றுபவர்கள்." },
+      { title: "உள்ளூர் குழு", body: "{town}யிலேயே வசித்து, பணியாற்றுபவர்கள்." },
       { title: "அன்றன்று சமைத்த உணவு", body: "ஒவ்வொரு டெலிவரிக்கும் புதிதாகச் சமைக்கப்படுகிறது." },
       { title: "சொன்ன நேரத்தில் டெலிவரி", body: "நீங்கள் தேர்ந்தெடுக்கும் நேரத்தில். டெலிவரி நேரம்: {hours}." },
       { title: "தெளிவான தொடர்பு", body: "வாட்ஸ்அப்பில் ஒரே தொடர்பு நபர் — தமிழிலோ ஆங்கிலத்திலோ." },
@@ -775,7 +775,7 @@ const dictionaries = { en, ta };
 
 /* Business details not yet confirmed — replace before launch. */
 const CONFIG = {
-  town: "[TOWN NAME]",
+  town: { en: "Pattukkottai", ta: "பட்டுக்கோட்டை" },
   serviceArea: "[SERVICE AREA]",
   whatsapp: "[WHATSAPP NUMBER]",
   phone: "[PHONE NUMBER]",
@@ -786,7 +786,7 @@ const CONFIG = {
 const isPh = v => !v || /^\[.*\]$/.test(v.trim());
 const waDigits = () => isPh(CONFIG.whatsapp) ? "" : CONFIG.whatsapp.replace(/\D/g, "");
 const waLink = msg => waDigits() ? `https://wa.me/${waDigits()}${msg ? "?text=" + encodeURIComponent(msg) : ""}` : "#arrange";
-const fill = s => s.replaceAll("{town}", CONFIG.town).replaceAll("{area}", CONFIG.serviceArea).replaceAll("{hours}", CONFIG.deliveryHours).replaceAll("{meals}", CONFIG.mealOptions);
+const fill = s => s.replaceAll("{town}", CONFIG.town[locale]).replaceAll("{area}", CONFIG.serviceArea).replaceAll("{hours}", CONFIG.deliveryHours).replaceAll("{meals}", CONFIG.mealOptions);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
 /* ---------- icons ---------- */
