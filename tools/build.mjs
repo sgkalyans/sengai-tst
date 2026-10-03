@@ -12,7 +12,7 @@
  *
  * The live domain is always https://sengai.in. When CNAME is any other host (the test
  * site), every page is marked noindex, so the test copy
- * never competes with the live site in search results.
+ * never competes with the live site in search results, and visitor analytics are left out.
  */
 import { createServer } from "node:http";
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
@@ -24,6 +24,8 @@ const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const SITE = "https://sengai.in";
 const host = readFileSync(join(root, "CNAME"), "utf8").trim();
 const live = host === "sengai.in";
+// Cloudflare Web Analytics (no cookies). Live site only, so test-site visits aren't counted.
+const ANALYTICS_TOKEN = "b81980f74791424d9883ce418241490a";
 
 const pages = {
   en: {
@@ -85,6 +87,7 @@ function seo(lang, title) {
     `<meta property="og:url" content="${SITE}${p.path}">`,
     `<meta property="og:locale" content="${p.ogLocale}">`,
     ...Object.entries(pages).filter(([l]) => l !== lang).map(([, q]) => `<meta property="og:locale:alternate" content="${q.ogLocale}">`),
+    live ? `<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "${ANALYTICS_TOKEN}"}'></script>` : null,
     `<script type="application/ld+json">${JSON.stringify(jsonld).replace(/</g, "\\u003c")}</script>`,
     "",
   ].filter(x => x !== null).join("\n");
