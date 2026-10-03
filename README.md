@@ -1,5 +1,24 @@
 # sengai-tst
 
+Test copy of the Sengai site (https://tst.sengai.in). The live site is the `sengai` repo
+(https://sengai.in); the two differ only in `CNAME` and the files the build writes from it.
+
+## Building (do this after every change)
+
+`app.js` draws the page, but search engines and link previews need the content in the HTML
+itself. After editing `index.html` or `app.js`, run:
+
+```
+npm install      # once
+npm run build
+```
+
+and commit everything it changes. `tools/build.mjs` writes the pre-rendered `index.html`
+(English, `/`) and `ta/index.html` (Tamil, `/ta/`), plus `robots.txt` and `sitemap.xml`.
+Search titles live in `meta.title` in `app.js`; search descriptions and structured data live in
+`tools/build.mjs`. On any host other than `sengai.in` (this test site) every page is marked
+`noindex`, so the test copy stays out of search results.
+
 ## Security headers
 
 The page sets its Content-Security-Policy and Referrer-Policy with `<meta>` tags in `index.html`.

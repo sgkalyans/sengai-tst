@@ -1,0 +1,3 @@
+# Test site (tst.sengai.in). Every page is marked noindex; the live site is https://sengai.in/
+User-agent: *
+Allow: /

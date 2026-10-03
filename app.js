@@ -6,6 +6,7 @@ const en = {
     toDark: "Switch to dark mode",
     toLight: "Switch to light mode",
     close: "Close",
+    title: "Sengai — Home-cooked meals for your parents in Pattukkottai",
   },
   nav: {
     home: "Home",
@@ -186,6 +187,7 @@ const ta = {
     toDark: "இருண்ட பயன்முறைக்கு மாற்று",
     toLight: "வெளிர் பயன்முறைக்கு மாற்று",
     close: "மூடு",
+    title: "செங்கை — பட்டுக்கோட்டையில் உங்கள் பெற்றோருக்கு வீட்டுச் சாப்பாடு",
   },
   nav: {
     home: "முகப்பு",
@@ -389,16 +391,21 @@ const icons = {
   menu: I('<path d="M4 8h16M4 16h16"/>'),
   close: I('<path d="M6 6l12 12M18 6 6 18"/>'),
 };
-const mark = () => `<img class="mark" src="logo-mark.png" alt="" width="192" height="192">`;
+const mark = () => `<img class="mark" src="/logo-mark.png" alt="" width="192" height="192">`;
 const logo = () => `<span class="logo">${mark()}<span><span class="name">Sengai</span><span class="en">A Caring Hand</span></span></span>`;
 
 /* ---------- photo placeholders ---------- */
 const tiffin = `<g transform="translate(150 262)"><path d="M22 8c0-14 56-14 56 0" fill="none" stroke="#8d8f8c" stroke-width="5" stroke-linecap="round"/><path d="M22 8v40M78 8v40" stroke="#8d8f8c" stroke-width="4" stroke-linecap="round"/>${[0,1,2].map(i=>`<g transform="translate(0 ${20+i*40})"><rect x="12" width="76" height="38" rx="10" fill="#c9cbc7"/><rect x="12" width="76" height="8" rx="4" fill="#dfe0dd"/><rect x="20" y="12" width="6" height="22" rx="3" fill="#e9eae7"/></g>`).join("")}<ellipse cx="50" cy="146" rx="46" ry="6" fill="#2b2420" opacity=".08"/></g>`;
-const photo = (src, cls, alt, w, h, lazy = true) => `<div class="photo ${cls}"><img src="img/${src}" alt="${esc(alt)}" width="${w}" height="${h}"${lazy ? ' loading="lazy"' : ""} decoding="async"></div>`;
+const photo = (src, cls, alt, w, h, lazy = true) => `<div class="photo ${cls}"><img src="/img/${src}" alt="${esc(alt)}" width="${w}" height="${h}"${lazy ? ' loading="lazy"' : ""} decoding="async"></div>`;
 
 /* ---------- state ---------- */
-let locale = "en";
-try { const q = new URLSearchParams(location.search).get("lang"); const s = localStorage.getItem("sengai-locale"); locale = (q === "ta" || q === "en") ? q : (s === "ta" ? "ta" : "en"); } catch (e) {}
+/* Each language has its own URL (/ and /ta/) so search engines can index both.
+   ?lang= (old links) and a remembered choice still win over the page's own language. */
+const paths = { en: "/", ta: "/ta/" };
+const pageLocale = document.documentElement.lang === "ta" ? "ta" : "en";
+let locale = pageLocale;
+try { const q = new URLSearchParams(location.search).get("lang"); const s = localStorage.getItem("sengai-locale"); locale = (q === "ta" || q === "en") ? q : (s === "ta" || s === "en") ? s : pageLocale; } catch (e) {}
+const syncUrl = () => { try { if (location.pathname !== paths[locale] || location.search) history.replaceState(null, "", paths[locale] + location.hash); } catch (e) {} };
 let firstRender = true, cityIdx = 0, cityTimer = null;
 
 /* ---------- sections ---------- */
@@ -609,12 +616,21 @@ function fitTaglines() {
 if (document.fonts) document.fonts.ready.then(fitTaglines);
 addEventListener("resize", fitTaglines);
 
+function html(t) {
+  return nav(t) + `<main id="main">` + hero(t) + ask(t) + distance(t) + services(t) + how(t) + nri(t) + trust(t) + stories(t) + about(t) + finalCta(t) + formSection(t) + `</main>` + footer(t);
+}
+
 function render() {
-  const t = dictionaries[locale];
+  const t = dictionaries[locale], app = document.getElementById("app");
   document.documentElement.lang = locale;
   document.documentElement.dataset.locale = locale;
-  document.getElementById("app").innerHTML =
-    nav(t) + `<main id="main">` + hero(t) + ask(t) + distance(t) + services(t) + how(t) + nri(t) + trust(t) + stories(t) + about(t) + finalCta(t) + formSection(t) + `</main>` + footer(t);
+  syncUrl();
+  // The page ships pre-rendered (tools/build.mjs); keep that markup on first load rather than redrawing it.
+  if (!(firstRender && app.dataset.prerendered === locale)) {
+    app.innerHTML = html(t);
+    document.title = t.meta.title;
+  }
+  delete app.dataset.prerendered;
   document.getElementById("stickyCta").textContent = t.sticky.cta;
   fitTaglines();
   firstRender = false;
