@@ -4,7 +4,8 @@
  *   npm run build
  *
  * index.html stays the single source page. This script:
- *   - fills the <!--seo--> block (title, description, canonical, hreflang, structured data);
+ *   - fills the <!--seo--> block (title, description, canonical, hreflang, structured data
+ *     including the Q&A section as FAQPage);
  *     page titles come from meta.title in app.js, descriptions from `pages` below,
  *   - fills the <!--app--> block with what app.js draws, so crawlers that don't run
  *     JavaScript still see the full page,
@@ -47,7 +48,7 @@ const between = (s, tag, inner) => {
   return s.replace(re, () => `<!--${tag}-->${inner}<!--/${tag}-->`);
 };
 
-function seo(lang, title) {
+function seo(lang, title, faq) {
   const p = pages[lang];
   const jsonld = {
     "@context": "https://schema.org",
@@ -74,6 +75,13 @@ function seo(lang, title) {
         audience: { "@type": "Audience", audienceType: "Families living away from their parents, in India or abroad" },
       },
       { "@type": "WebSite", "@id": `${SITE}/#website`, url: `${SITE}/`, name: "Sengai", inLanguage: ["en", "ta"], publisher: { "@id": `${SITE}/#org` } },
+      {
+        "@type": "FAQPage",
+        "@id": `${SITE}${p.path}#faq`,
+        url: `${SITE}${p.path}`,
+        inLanguage: lang,
+        mainEntity: faq.map(({ q, a }) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })),
+      },
     ],
   };
   return [
@@ -115,15 +123,16 @@ for (const lang of Object.keys(pages)) {
   // Only local files: fonts and the Tally form aren't needed for the snapshot.
   await page.route(u => !u.href.startsWith(base), r => r.abort());
   await page.goto(`${base}/?lang=${lang}`, { waitUntil: "load" });
-  const { app, sticky, title } = await page.evaluate(() => {
+  const { app, sticky, title, faq } = await page.evaluate(() => {
     const a = document.getElementById("app").cloneNode(true);
     a.querySelectorAll(".logo .en").forEach(e => e.removeAttribute("style")); // sized again at runtime
     a.querySelectorAll("iframe[src]").forEach(e => e.removeAttribute("src"));  // Tally loads at runtime
-    return { app: a.innerHTML, sticky: document.getElementById("stickyCta").textContent, title: document.title };
+    const faq = [...document.querySelectorAll(".faq-item")].map(d => ({ q: d.querySelector("summary").textContent.trim(), a: d.querySelector("p").textContent.trim() }));
+    return { app: a.innerHTML, sticky: document.getElementById("stickyCta").textContent, title: document.title, faq };
   });
   await ctx.close();
 
-  let out = between(source, "seo", seo(lang, title));
+  let out = between(source, "seo", seo(lang, title, faq));
   out = between(out, "app", app);
   out = out.replace(/<html lang="[^"]*" data-locale="[^"]*">/, `<html lang="${lang}" data-locale="${lang}">`);
   out = out.replace('<div id="app">', `<div id="app" data-prerendered="${lang}">`);

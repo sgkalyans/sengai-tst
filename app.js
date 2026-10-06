@@ -157,6 +157,45 @@ const en = {
       { label: "Trusted local care", note: "Where we’re headed" },
     ],
   },
+  faq: {
+    nav: "Questions",
+    title: "Questions families ask",
+    intro: "Can’t find your answer here? Leave your details in the form and we’ll answer you on WhatsApp.",
+    items: [
+      {
+        q: "What does Sengai do?",
+        a: "Sengai arranges freshly prepared, home-style meals for elderly parents and loved ones in {town}, delivered to their home. It is for families who live away from them — abroad in places like Singapore, Dubai, the UK or the USA, or in another Indian city such as Chennai or Bengaluru.",
+      },
+      {
+        q: "Which areas do you deliver to?",
+        a: "{town} town and the surrounding areas in Thanjavur district, Tamil Nadu. Share your parents’ address in the form and we’ll confirm that we can reach them.",
+      },
+      {
+        q: "I’m an NRI living abroad. How do I arrange meals for my parents?",
+        a: "Fill in the form on this page from anywhere, in any time zone. Our team will contact you on WhatsApp, in English or Tamil, to understand your parents’ needs and set up their meals. Your parents only deal with our local team.",
+      },
+      {
+        q: "Can you deliver tiffin, lunch or dinner every day?",
+        a: "Meals can be arranged daily, weekly or only on the days they need. Tell us which meals your parents would like — morning tiffin, lunch or dinner — and we’ll confirm what we can arrange for them.",
+      },
+      {
+        q: "Can the food suit my parents’ taste and diet?",
+        a: "Every meal is arranged around the person eating it, with a familiar, home-style taste. Tell us their preferences — vegetarian, less spice, less salt or foods they avoid — and we’ll talk through what we can do.",
+      },
+      {
+        q: "Do my parents need a smartphone or an app?",
+        a: "No. Our local team delivers the meals to their door. You arrange everything with us, with one point of contact on WhatsApp.",
+      },
+      {
+        q: "How much does it cost?",
+        a: "It depends on the meals and schedule you choose. Leave your details in the form and we’ll share the details with you on WhatsApp.",
+      },
+      {
+        q: "Do you help with anything other than meals?",
+        a: "Meals come first. Grocery help, medicine collection, doctor visit support and other everyday help are coming soon, but are not available yet. Tell us in the form which would help your family most.",
+      },
+    ],
+  },
   final: {
     title: ["Give them more than a meal.", "Give them your care."],
     body: "You may not always be able to sit beside them. But you can still be there for them.",
@@ -336,6 +375,45 @@ const ta = {
       { label: "சாப்பாடு", note: "இப்போது" },
       { label: "அன்றாட உதவி", note: "அடுத்து" },
       { label: "நம்பகமான உள்ளூர் அக்கறை", note: "எங்கள் இலக்கு" },
+    ],
+  },
+  faq: {
+    nav: "கேள்விகள்",
+    title: "குடும்பங்கள் கேட்கும் கேள்விகள்",
+    intro: "உங்கள் கேள்விக்கு இங்கே பதில் இல்லையா? படிவத்தில் உங்கள் விவரங்களைத் தாருங்கள், வாட்ஸ்அப்பில் பதில் சொல்கிறோம்.",
+    items: [
+      {
+        q: "செங்கை என்ன செய்கிறது?",
+        a: "{town}யில் இருக்கும் வயதான பெற்றோருக்கும் உங்கள் அன்புக்குரியவர்களுக்கும், அன்றன்று சமைத்த வீட்டுச் சாப்பாட்டை அவர்கள் வீட்டுக்கே கொண்டு சேர்க்கிறது செங்கை. சிங்கப்பூர், துபாய், இங்கிலாந்து, அமெரிக்கா போன்ற வெளிநாடுகளிலோ, சென்னை, பெங்களூரு போன்ற வேறு நகரங்களிலோ வசிக்கும் குடும்பங்களுக்காக இது.",
+      },
+      {
+        q: "எந்தெந்தப் பகுதிகளுக்கு டெலிவரி செய்கிறீர்கள்?",
+        a: "தஞ்சாவூர் மாவட்டத்தில் உள்ள {town} நகரம் மற்றும் சுற்றுவட்டாரப் பகுதிகளுக்கு. படிவத்தில் உங்கள் பெற்றோரின் முகவரியைக் கொடுங்கள்; அங்கே எங்களால் வர முடியுமா என்று உறுதி செய்கிறோம்.",
+      },
+      {
+        q: "நான் வெளிநாட்டில் வசிக்கிறேன். என் அம்மா அப்பாவுக்குச் சாப்பாடு எப்படி ஏற்பாடு செய்வது?",
+        a: "இந்தப் பக்கத்தில் உள்ள படிவத்தை எங்கிருந்தும், எந்த நேர மண்டலத்திலிருந்தும் நிரப்பலாம். எங்கள் குழு வாட்ஸ்அப்பில் தமிழிலோ ஆங்கிலத்திலோ உங்களைத் தொடர்பு கொண்டு, உங்கள் பெற்றோரின் தேவைகளைக் கேட்டு, சாப்பாட்டை ஏற்பாடு செய்யும். உங்கள் பெற்றோர் எங்கள் உள்ளூர் குழுவிடம் மட்டும் பழகினால் போதும்.",
+      },
+      {
+        q: "தினமும் டிபன், மதியச் சாப்பாடு, இரவுச் சாப்பாடு கொடுப்பீர்களா?",
+        a: "தினமும், வாரம் ஒருமுறை, அல்லது தேவைப்படும் நாட்களில் மட்டும் ஏற்பாடு செய்யலாம். காலை டிபன், மதியச் சாப்பாடு, இரவுச் சாப்பாடு — எது வேண்டும் என்று சொல்லுங்கள்; என்ன ஏற்பாடு செய்ய முடியும் என்று உறுதி செய்கிறோம்.",
+      },
+      {
+        q: "என் பெற்றோரின் சுவைக்கும் உணவுக் கட்டுப்பாட்டுக்கும் ஏற்றபடி சமைப்பீர்களா?",
+        a: "சாப்பிடுபவருக்கு ஏற்றபடி, பழக்கமான வீட்டுச் சுவையில் ஒவ்வொரு வேளையும் ஏற்பாடு செய்யப்படும். சைவம், குறைந்த காரம், குறைந்த உப்பு, தவிர்க்க வேண்டிய உணவுகள் — அவர்களின் விருப்பங்களைச் சொல்லுங்கள்; என்ன செய்ய முடியும் என்று பேசி முடிவு செய்வோம்.",
+      },
+      {
+        q: "என் பெற்றோருக்கு ஸ்மார்ட்போனோ ஆப்போ தேவையா?",
+        a: "தேவையில்லை. எங்கள் உள்ளூர் குழு சாப்பாட்டை அவர்கள் வீட்டு வாசலுக்கே கொண்டு சேர்க்கும். எல்லா ஏற்பாடுகளையும் நீங்கள் எங்களிடம் செய்யலாம்; வாட்ஸ்அப்பில் உங்களுக்கு ஒரே தொடர்பு நபர் இருப்பார்.",
+      },
+      {
+        q: "கட்டணம் எவ்வளவு?",
+        a: "நீங்கள் தேர்ந்தெடுக்கும் சாப்பாடு, நேரத்தைப் பொறுத்தது. படிவத்தில் உங்கள் விவரங்களைத் தாருங்கள்; வாட்ஸ்அப்பில் முழு விவரங்களையும் அனுப்புகிறோம்.",
+      },
+      {
+        q: "சாப்பாட்டைத் தவிர வேறு உதவிகளும் செய்வீர்களா?",
+        a: "முதலில் சாப்பாடு. மளிகைப் பொருட்கள், மருந்து வாங்கித் தருதல், மருத்துவர் சந்திப்புக்கு உதவி போன்ற அன்றாட உதவிகள் விரைவில் வரும்; இப்போது இன்னும் தொடங்கவில்லை. உங்கள் குடும்பத்துக்கு எது அதிகம் உதவும் என்று படிவத்தில் சொல்லுங்கள்.",
+      },
     ],
   },
   final: {
@@ -547,6 +625,14 @@ function about(t) {
   </div></section>`;
 }
 
+function faq(t) {
+  const f = t.faq;
+  return `<section id="faq" class="faq sec" aria-labelledby="faq-title"><div class="wrap faq-grid">
+    <div><h2 id="faq-title" class="h2">${f.title}</h2><p class="lead" style="margin-top:1.25rem">${f.intro}</p></div>
+    <div class="faq-list">${f.items.map(x => `<details class="faq-item"><summary><h3>${x.q}</h3></summary><p>${fill(x.a)}</p></details>`).join("")}</div>
+  </div></section>`;
+}
+
 function finalCta(t) {
   const f = t.final;
   return `<section class="final" aria-labelledby="final-title"><div class="final-in">
@@ -596,7 +682,7 @@ addEventListener("message", e => {
 });
 
 function footer(t) {
-  const links = [["#top", t.nav.home], ["#how", t.nav.how], ["#services", t.nav.services], ["#about", t.nav.about]];
+  const links = [["#top", t.nav.home], ["#how", t.nav.how], ["#services", t.nav.services], ["#about", t.nav.about], ["#faq", t.faq.nav]];
   return `<footer id="contact"><div class="wrap foot-grid">
     <div>${logo()}<p class="f-soft" style="margin-top:1.5rem;max-width:20rem">${fill(t.footer.serving)}</p></div>
     <nav aria-label="Footer"><ul>${links.map(([h, l]) => `<li><a href="${h}">${l}</a></li>`).join("")}</ul></nav>
@@ -617,7 +703,7 @@ if (document.fonts) document.fonts.ready.then(fitTaglines);
 addEventListener("resize", fitTaglines);
 
 function html(t) {
-  return nav(t) + `<main id="main">` + hero(t) + ask(t) + distance(t) + services(t) + how(t) + nri(t) + trust(t) + stories(t) + about(t) + finalCta(t) + formSection(t) + `</main>` + footer(t);
+  return nav(t) + `<main id="main">` + hero(t) + ask(t) + distance(t) + services(t) + how(t) + nri(t) + trust(t) + stories(t) + about(t) + faq(t) + finalCta(t) + formSection(t) + `</main>` + footer(t);
 }
 
 function render() {
